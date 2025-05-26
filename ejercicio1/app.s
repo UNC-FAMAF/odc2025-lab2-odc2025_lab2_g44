@@ -30,7 +30,7 @@ loop0:
  
  	movz x12, 0x00, lsl 16
 	movk x12, 0x00FF, lsl 00
-loop1:
+loop3:
 	mov x1, SCREEN_WIDTH         // X Size
 loop2: 
 	x12 = x8 + 4 * [0 + (240 * 640)]
@@ -39,7 +39,7 @@ loop2:
 	sub x1,x1,1	   // Decrementar contador X
 	cbnz x1,loop2  // Si no terminó la fila, salto
 	sub x2,x2,1	   // Decrementar contador Y
-	cbnz x2,loop1  // Si no es la última fila, salto
+	cbnz x2,loop3  // Si no es la última fila, salto
  
 	// Ejemplo de uso de gpios
 	mov x9, GPIO_BASE
