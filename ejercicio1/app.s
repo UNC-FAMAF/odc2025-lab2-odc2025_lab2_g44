@@ -30,6 +30,8 @@ loop0:
  
  	movz x12, 0x00, lsl 16
 	movk x12, 0x00FF, lsl 00
+
+ 
 loop3:
 	mov x1, SCREEN_WIDTH         // X Size
 loop2: 
