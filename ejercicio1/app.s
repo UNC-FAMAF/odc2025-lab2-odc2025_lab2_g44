@@ -29,19 +29,27 @@ loop0:
 	
  
  	movz x12, 0x00, lsl 16
-	movk x12, 0x00FF, lsl 00
+	movk x12, 0x00FF, lsl 00  // Guardamos el color azul oscuro
 
- 
-loop3:
-	mov x1, SCREEN_WIDTH         // X Size
-loop2: 
-	x12 = x8 + 4 * [0 + (240 * 640)]
-	stur w12,[x0] 
- 	add x8,x8,4	   // Siguiente pixel
-	sub x1,x1,1	   // Decrementar contador X
-	cbnz x1,loop2  // Si no terminó la fila, salto
-	sub x2,x2,1	   // Decrementar contador Y
-	cbnz x2,loop3  // Si no es la última fila, salto
+	mov x1, SCREEN_WIDTH         // X Size 640
+        mov x2, SCREEN_HEIGH         // Y size 480
+        add x0, x20, XZR            // guarda la dirección de memoria del frame en X0
+
+        add x4, XZR, 240    // x4 = 240
+
+        mul x4, X4, x1     // X4 = 240 * 640
+        lsl x4, X4, 2      // X4 = (240 * 640) * 4
+        add x0, X0, X4    // Ahora la dirección base es la mitad del arreglo
+
+iLoop:  mov x1, SCREEN_WIDTH         // X Size
+
+oLoop : stur w12, [X0]   // Coloreo el pixel N
+        add x0, x0, 4    // siguiente pixel
+        sub x1, x1, 1    // Decrementa contador X
+        cbnz x1, oLoop  // Si no termino la fila, salto
+        subs x2, x2, 1  // Decrementar contador Y
+        cmp  x2, 240    // Compara si llego a iterar 240 veces
+        B.ne iLoop      // Si aun no llego, salto
  
 	// Ejemplo de uso de gpios
 	mov x9, GPIO_BASE
