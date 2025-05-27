@@ -6,6 +6,8 @@
 .equ GPIO_GPFSEL0,   0x00
 .equ GPIO_GPLEV0,    0x34
 
+.extern draw_submarino_up
+
 .globl main
 
 main:
@@ -53,6 +55,20 @@ oLoop:
 	subs x2, x2, 1   // decrementa contador Y
 	cmp  x2, 240     // comparo con 240 para pintar solo mitad inferior
 	bne  iLoop       // si no llego a 240, salto al inicio del loop
+
+
+// INTENTO DE UN SUBMARINO.  
+        mov x0, x20                  // x0 direccion base del frame
+	mov x1, SCREEN_WIDTH         // X Size
+        mov x2, SCREEN_HEIGH         // Y Size
+	mov x3, 360                  // Son posiciones de donde quiero el submarino
+        mov x4, 200
+	mov x5, 340                  // Este sera el contador
+        bl draw_submarino_up         // me lleva a la funcion en otro archivo
+
+
+
+ 
 
 	// Ejemplo de uso de gpios
 	mov x9, GPIO_BASE
