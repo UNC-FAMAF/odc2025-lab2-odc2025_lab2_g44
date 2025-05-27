@@ -61,6 +61,8 @@ oLoop:
         mov x0, x20                  // x0 direccion base del frame
 	mov x1, SCREEN_WIDTH         // X Size
         mov x2, SCREEN_HEIGH         // Y Size
+	movk x12, 0xF6, lsl 16
+	movk x12, 0xEE08, lsl 0      // Color amarillo 
 	mov x3, 360                  // Son posiciones de donde quiero el submarino
         mov x4, 200
 	mov x5, 340                  // Este sera el contador
