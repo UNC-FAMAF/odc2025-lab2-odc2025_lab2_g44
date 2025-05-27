@@ -80,12 +80,19 @@ degradado_x:
     b.ne degradado_y
 
 
-    // INTENTO DE UN SUBMARINO.  
+    // BARQUITO  
     mov x0, x20                  // Dirección base del framebuffer
 mov x1, SCREEN_WIDTH         // Ancho de la pantalla
 mov x2, SCREEN_HEIGH         // Alto de la pantalla
-movz x12, 0xF6, lsl 16
-movk x12, 0xEE08, lsl 0      // Color amarillo
+
+
+// Mástil (negro)
+movz x12, 0x0000, lsl 16
+movk x12, 0x0000, lsl 0      // Color negro
+bl draw_mastil
+
+movz x12, 0xE9, lsl 16
+movk x12, 0x0E0E, lsl 0      // Color ROJO
 
 mov x3, 360                  // Fila inicial
 mov x4, 200                  // Columna inicial
@@ -93,9 +100,9 @@ mov x5, 340                   // Ancho del submarino
 bl draw_submarino
 
 
-
     // ---------------- Bucle infinito ----------------
 InfLoop:
     b InfLoop
+
 
  
