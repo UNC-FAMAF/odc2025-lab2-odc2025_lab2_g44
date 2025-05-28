@@ -1,5 +1,6 @@
 .global draw_submarino
 .global draw_mastil
+.global draw_circulo
 
 draw_mastil:   
     // 
@@ -60,3 +61,84 @@ loop_columnas_down:
 
     ret
 
+draw_circulo: 
+
+    draw_circulo_down : 
+                    mov x3, 90     // fila inicial 
+                    mov x6, 20    // contador de filas
+                    mov x8, 0      // variable auxiliar que va a ensanchar 
+   
+        loop_down:  mov x7, 100       // ancho inicial
+                    add x7, x7, x8    // representa el ancho de la fila actual
+                 
+                    mov x4, 160      // centrar linea horizontal con respecto al primer cuarto de pantalla
+                    sub  x4, x4, x7, lsr #1 // x4 = centro - ancho/2
+                 
+                    mov x5, x7  // contador de columnas en x5
+      
+         loop_down1 : mul x11, x3, x1
+                     add x11, x4, x11  
+                     lsl x11, x11, 2
+                     add x11, x0, x11
+                     stur w12, [x11]
+               
+                     add x4, x4, 1
+                     sub x5, x5, 1
+                     cbnz x5, loop_down1
+                  
+                     sub x3, x3, 1
+                     add x8, x8, 2  // el ancho va a incrementarse de a 2 pixeles
+                     sub x6, x6, 1
+                     cbnz x6, loop_down
+
+
+draw_circulo_medio : mov x3, 70  //fila inicial    
+                     mov x6, 10  // contador de filas
+          
+          loop_medio : mov x7, 140   // ancho 
+                       mov x4, 160   
+                       sub  x4, x4, x7, lsr #1 // x4 = centro - ancho/2
+ 
+
+          loop_medio1 : mul x11, x3, x1 
+                        add x11, x4, x11
+                        lsl x11, x11, 2
+                        add x11, x0, x11
+                        stur w2, [x11]
+ 
+                        add x4, x4, 1  // siguiente pixel
+                        sub x7, x7, 1  // decrementar contador de columnas
+                        cbnz x5, loop_medio1
+           
+                       sub x3, x3, 1  // sigo a la fila de arriba
+                       sub x6, x6, 1  // Decrementar contador de filas
+                       cbnz x6, loop_medio
+
+draw_circulo_up : mov x3, 60    // fila inicial
+                  mov x6, 20     // contador de filas
+                  mov x8, 0     // variable auxiliar que va a estrechar el ancho
+     
+         loop_up :   mov x7, 140  // ancho inicial
+                     add x7, x7, x8   // ancho actual  
+
+                     mov x4, 160        
+                     sub x4, x4, x7, lsr 1 // x4 = centro - ancho/2
+                 
+                     mov x5, x7   // contador de columnas en x5
+
+         loop_up1 :  mul x11, x3, x1
+                     add x11, x4, x11  
+                     lsl x11, x11, 2
+                     add x11, x0, x11
+                     stur w12, [x11] 
+
+                     add x4, x4, 1
+                     sub x5, x5, 1
+                     cbnz x5, loop_up1
+                 
+                     sub x3, x3, 1
+                     sub x8, x8, 1
+                     sub x6, x6, 1
+                     cbnz x6, loop_up
+        
+                    ret 
