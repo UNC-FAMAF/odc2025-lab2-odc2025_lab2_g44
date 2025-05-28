@@ -100,6 +100,17 @@ mov x5, 340                   // Ancho del submarino
 bl draw_submarino
 
 
+    //---------Circulo Sol-------------------//
+
+movz x12, 0xF7, lsl 16
+movk x12, 0xE80C, lsl 0     // color amarillo
+
+mov x1, SCREEN_WIDTH       // inicializamos ancho del frame
+mov x0, x20                 // inicializamos el x0 con la direcc base del frame
+
+bl draw_circulo
+
+
     // ---------------- Bucle infinito ----------------
 InfLoop:
     b InfLoop
