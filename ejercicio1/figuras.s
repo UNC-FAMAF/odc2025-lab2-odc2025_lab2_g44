@@ -65,57 +65,47 @@ loop_columnas_down:
 
 
  draw_sol:
-//-----INTENTO PARTE DE ABAJO------
-draw_circulo_down : 
-                    mov x3, 100     // fila inicial 
-                    mov x6, 30    // contador de filas
-                    mov x8, 0      // variable auxiliar que va a ensanchar 
-   
-     loop_down:  mov x7, 70       // ancho inicial
-                 add x7, x7, x8    // representa el ancho de la fila actual
-                 
-                 mov x4, 160      // Esto ubica el inicio de la línea de forma que quede centrada horizontalmente respecto a la columna 160
-                 sub  x4, x4, x7, lsr #1 // x4 = centro - ancho/2
-                 
-                  mov x5, x7  // contador de columnas en x5
-      
-     loop_down1 : mul x11, x3, x1
-                  add x11, x4, x11  
-                  lsl x11, x11, 2
-                  add x11, x0, x11
-                  stur w12, [x11]
+//-----INTENTO PARTE DE ARRIBA------
+// el circulo va a tener columna inicial=110 , fila inicial=65
+// vamos a hacer el uso de la ecuación de la circunferencia x² + y² = r². 
+// como queremos calcular la distancia a la que va a estar el pixel desde el centro del cielo para pintarlo la incógnita sera r = 2 * √(x² + y²)
+ 
+               mov x3, 65         // fila inicial
+               mov x4, 50          // radio  
                
-                  add x4, x4, 1
-                  sub x5, x5, 1
-                  cbnz x5, loop_down1
-                  
-                  sub x3, x3, 1
-                  add x8, x8, 2  // el ancho va a incrementarse de a 2 pixeles
-                  sub x6, x6, 1
-                  cbnz x6, loop_down
+
+   loop_1:
+               sub x5, x3, 40      // centro vertical del círculo
+               cbz x5, Circulo_down
+
+               // calculamos el ancho de cada fila
+               
+               mul x11, x5, x5
+               mul x12, x4, x4
+               sub x11, x12, x11
+               ucvtf s11, x11                       // UCVTF Sd, Xn, #fbits. Convert unsigned 64-bit fixed-point in Xn to single-precision scalar in Sd, using FPCR rounding mode
+               fsqrt s11, s11                          //FSQRT Sd, Sn.    Single-precision floating-point scalar square root: Sd = sqrt(Sn).
+               fmov s2, 2.0                                     // FMOV Sd, #fpimm. Single-precision floating-point move immediate Sd = fpimm.
+               fmul s11, s11, s2                                         // FMUL Sd, Sn, Sm .  Single-precision floating-point scalar multiply: Sd = Sn * Sm.
+               fcvtzu x11, s11                         //FCVTZU Xd, Sn, #fbits. Convert single-precision scalar in Sn to unsigned 64-bit fixed-point in Xd, rounding towards zero.
+
+               
+               mov x6, 160                  // Esto ubica el inicio de la línea de forma que quede centrada horizontalmente respecto a la columna 160
+               sub  x6, x6, x11, lsr #1     // x6 = centro - ancho/2
+               mov x10, x11                 // copiamos el ancho de la fila a x10 para usarlo como contador
 
 
-draw_circulo_medio : mov x3, 70  //fila inicial
-                     mov x6, 10  // contador de filas
-          
-    loop_medio : mov x7, 140   // ancho 
-                 mov x4, 160   
-                 sub  x4, x4, x7, lsr #1 // x4 = centro - ancho/2
- 
+   loop_2:     mul x8, x3, x1
+               add x8, x6, x8  
+               lsl x8, x8, 2
+               add x8, x0, x8
+               stur w12, [x8]
 
-    loop_medio1 : mul x11, x3, x1 
-                  add x11, x4, x11
-                  lsl x11, x11, 2
-                  add x11, x0, x11
-                  stur w2, [x11]
- 
-                  add x4, x4, 1  // siguiente pixel
-                  sub x7, x7, 1  // decrementar contador de columnas
-                  cbnz x5, loop_medio1
-           
-                  sub x3, x3, 1  // sigo a la fila de arriba
-                  sub x6, x6, 1  // Decrementar contador de filas
-                  cbnz x6, loop_medio
-
+               add x6, x6, 1
+               sub x10, x10, 1
+               cbnz x10, loop_2
+               
+               sub x3, x3, 1
+               b loop_1
     ret
 
