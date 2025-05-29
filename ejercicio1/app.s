@@ -93,6 +93,24 @@ movz x12, 0x0000, lsl 16
 movk x12, 0x0000, lsl 0      // Color negro
 bl draw_mastil
 
+// -------- Vela izquierda (blanca) ----------
+movz x12, 0xFF, lsl 16
+movk x12, 0xFFFF, lsl 0       // Color blanco
+
+mov x3, 100         // fila inicial (un poco más arriba del barco)
+mov x4, 315         // columna justo a la izquierda del mástil
+mov x5, 180          // altura de la vela
+mov x6, 0           // dirección izquierda
+bl draw_vela
+
+// -------- Vela derecha (blanca) ----------
+mov x3, 100
+mov x4, 330         // columna justo a la derecha del mástil
+mov x5, 180
+mov x6, 1           // dirección derecha
+bl draw_vela
+
+
 movz x12, 0xE9, lsl 16
 movk x12, 0x0E0E, lsl 0      // Color ROJO
 
