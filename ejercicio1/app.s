@@ -3,7 +3,7 @@
 .equ BITS_PER_PIXEL, 32
 
 
-.extern draw_submarino
+.extern draw_barco
 
 .globl main
 
@@ -80,6 +80,8 @@ degradado_x:
     b.ne degradado_y
 
 
+
+
     // BARQUITO  
     mov x0, x20                  // Dirección base del framebuffer
 mov x1, SCREEN_WIDTH         // Ancho de la pantalla
@@ -97,8 +99,7 @@ movk x12, 0x0E0E, lsl 0      // Color ROJO
 mov x3, 360                  // Fila inicial
 mov x4, 200                  // Columna inicial
 mov x5, 340                   // Ancho del submarino
-bl draw_submarino
-
+bl draw_barco
 
     //---------Circulo Sol-------------------//
 
@@ -108,7 +109,7 @@ movk x12, 0xE80C, lsl 0     // color amarillo
 mov x1, SCREEN_WIDTH       // inicializamos ancho del frame
 mov x0, x20                 // inicializamos el x0 con la direcc base del frame
 
-bl draw_circulo
+bl draw_sol
 
 
     // ---------------- Bucle infinito ----------------
