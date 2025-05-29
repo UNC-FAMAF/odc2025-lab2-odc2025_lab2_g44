@@ -81,8 +81,8 @@ loop_columnas_down:
                // calculamos el ancho de cada fila
                
                mul x11, x5, x5
-               mul x12, x4, x4
-               sub x11, x12, x11
+               mul x9, x4, x4
+               add x11, x9, x11
                ucvtf s11, x11                       // UCVTF Sd, Xn, #fbits. Convert unsigned 64-bit fixed-point in Xn to single-precision scalar in Sd, using FPCR rounding mode
                fsqrt s11, s11                          //FSQRT Sd, Sn.    Single-precision floating-point scalar square root: Sd = sqrt(Sn).
                fmov s2, 2.0                                     // FMOV Sd, #fpimm. Single-precision floating-point move immediate Sd = fpimm.
