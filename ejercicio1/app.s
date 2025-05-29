@@ -95,7 +95,7 @@ bl draw_mastil
 
 // -------- Vela izquierda (blanca) ----------
 movz x12, 0xFF, lsl 16
-movk x12, 0xFFFF, lsl 0       // Color blanco
+movk x12, 0xB266, lsl 0       // Color blanco
 
 mov x3, 100         // fila inicial (un poco más arriba del barco)
 mov x4, 315         // columna justo a la izquierda del mástil
