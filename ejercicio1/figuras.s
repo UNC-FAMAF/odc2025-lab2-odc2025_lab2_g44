@@ -76,7 +76,7 @@ loop_columnas_down:
 
    loop_1:
                sub x5, x3, 40      // centro vertical del círculo
-               cbz x5, Circulo_down
+               cbz x5, exit
 
                // calculamos el ancho de cada fila
                
@@ -107,5 +107,5 @@ loop_columnas_down:
                
                sub x3, x3, 1
                b loop_1
-    ret
+    exit : ret
 
