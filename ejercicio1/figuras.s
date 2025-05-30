@@ -65,7 +65,45 @@ loop_columnas_down:
 
 
  draw_sol:
-               mov x3, 66
+               mov x3, 65         // fila inicial
+               mov x4, 50          // radio  
+               
+
+   loop_1:
+               sub x5, x3, 40      // centro vertical del círculo
+               cbz x5, Circulo_down
+
+               // calculamos el ancho de cada fila
+               
+               mul x11, x5, x5
+               mul x9, x4, x4
+               sub x11, x11, x9
+               ucvtf s11, x11                      
+               fsqrt s11, s11                          
+               fmov s2, 2.0                                     
+               fmul s11, s11, s2                                         
+               fcvtzu x11, s11                         
+
+               
+               mov x6, 160                  // Esto ubica el inicio de la línea de forma que quede centrada horizontalmente respecto a la columna 160
+               sub  x6, x6, x11, lsr #1     // x6 = centro - ancho/2
+               mov x10, x11                 // copiamos el ancho de la fila a x10 para usarlo como contador
+
+
+   loop_2:     mul x8, x3, x1
+               add x8, x6, x8  
+               lsl x8, x11, 2
+               add x8, x0, x8
+               stur w12, [x8]
+
+               add x6, x6, 1
+               sub x10, x10, 1
+               cbnz x10, loop_2
+               
+               sub x3, x3, 1
+               b loop_1
+
+    Circulo_down:  mov x3, 66
                    
 
       loop_3:   sub x5, x3, 40 
@@ -87,13 +125,13 @@ loop_columnas_down:
                
 loop_4:     mul x8, x3, x1
                add x8, x6, x8  
-               lsl x8, x8, 2
+               lsl x8, x11, 2
                add x8, x0, x8
                stur w12, [x8]
 
                add x6, x6, 1
                sub x10, x10, 1
-               cbnz x10, loop_4
+               cbnz x10, loop_2
                
                sub x3, x3, 1
                b loop_3
