@@ -121,7 +121,7 @@ mov x5, 340                   // Ancho del submarino
 bl draw_barco
 
     //---------Circulo Sol-------------------//
-
+mov x1, SCREEN_WIDTH
 mov x0, x20                 // inicializamos el x0 con la direcc base del frame
 
 bl draw_sol
