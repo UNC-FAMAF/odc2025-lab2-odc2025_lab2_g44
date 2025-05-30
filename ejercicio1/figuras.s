@@ -73,7 +73,7 @@ loop_columnas_down:
          mov x5, 25        // fila inicial, X5 = centro - radio = 25
 
 loop_1:
-        sub x7, x5, x3      // distancia entre la fila actual y el centro. 
+        subs x7, x5, x3      // distancia entre la fila actual y el centro. 
         cmp x7, 0
         bge calcular_ancho
         sub x7, xzr, x7     // Si la distancia es un valor negativo, lo hacemos positivo
@@ -103,7 +103,7 @@ loop_1:
                sub x10, x10, 1
                cbnz x10, loop_2
                
-               add x5, x5, 1
+               adds x5, x5, 1
                cmp x5, 105   // 65 + 40 = 105 -> ultima fila
                bne loop_1
          ret
