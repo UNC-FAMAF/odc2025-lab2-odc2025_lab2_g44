@@ -4,6 +4,7 @@
 
 
 .extern draw_barco
+.extern draw_sol
 
 .globl main
 
