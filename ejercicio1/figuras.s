@@ -67,7 +67,7 @@ loop_columnas_down:
  draw_sol:
      mov x4, 160  // columna inicial  --> centro x
      mov x2, 65  // fila inicial --> centro y
-     mov x3, 50  // radio
+     mov x3, 40  // radio
    
     mov x5, x4         // centro x
     mov x6, x2         // centro y
