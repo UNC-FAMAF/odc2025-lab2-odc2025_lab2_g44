@@ -106,7 +106,7 @@ bl draw_vela
 // -------- Vela derecha (blanca) ----------
 mov x3, 100
 mov x4, 330         // columna justo a la derecha del mástil
-mov x5, 180
+mov x5, 100
 mov x6, 1           // dirección derecha
 bl draw_vela
 
