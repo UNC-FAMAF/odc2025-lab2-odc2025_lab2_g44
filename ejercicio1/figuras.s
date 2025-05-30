@@ -81,7 +81,7 @@ loop_1:
             // calculamos el ancho de la fila actual
                
   calcular_ancho:  mul x11, x7, x7      //  y²
-                   mul x9, x4, x4.      //   r²
+                   mul x9, x4, x4      //   r²
                    sub x11, x9, x11     // r² - y²
                    ucvtf s11, x11       // convierto  r² - y² en flotante
                    fsqrt s11, s11        // √(r² - y²) en punto flotante
