@@ -65,79 +65,67 @@ loop_columnas_down:
 
 
  draw_sol:
-               mov x3, 65         // fila inicial
-               mov x4, 50          // radio  
-               
+// x0 = framebuffer base
+// x1 = centro x (horizontal)
+// x2 = centro y (vertical)
+// x3 = radio
 
-   loop_1:
-               sub x5, x3, 40      // centro vertical del círculo
-               cbz x5, Circulo_down
+    mov x20, x0        // framebuffer base
+    mov x5, x1         // centro x
+    mov x6, x2         // centro y
+    mov x7, x3         // radio
 
-               // calculamos el ancho de cada fila
-               
-               mul x11, x5, x5
-               mul x9, x4, x4
-               sub x11, x11, x9
-               ucvtf s11, x11                      
-               fsqrt s11, s11                          
-               fmov s2, 2.0                                     
-               fmul s11, s11, s2                                         
-               fcvtzu x11, s11                         
+    movz x9, 0xFF, lsl 16   // color rojo en RGB: 0xFF0000
+    movk x9, 0xF700, lsl 0
 
-               
-               mov x6, 160                  // Esto ubica el inicio de la línea de forma que quede centrada horizontalmente respecto a la columna 160
-               sub  x6, x6, x11, lsr #1     // x6 = centro - ancho/2
-               mov x10, x11                 // copiamos el ancho de la fila a x10 para usarlo como contador
+    // loop sobre y desde -radio hasta +radio
+    mov x10, -1
+    mul x10, x7, x10     // x10 = -radio
+    loop_y:
+    cmp x10, x7
+    bgt fin_circulo
 
+    // loop sobre x desde -radio hasta +radio
+    mov x11, -1
+    mul x11, x7, x11     // x11 = -radio
 
-   loop_2:     mul x8, x3, x1
-               add x8, x6, x8  
-               lsl x8, x11, 2
-               add x8, x0, x8
-               stur w12, [x8]
+loop_x:
+    cmp x11, x7
+    bgt siguiente_y
 
-               add x6, x6, 1
-               sub x10, x10, 1
-               cbnz x10, loop_2
-               
-               sub x3, x3, 1
-               b loop_1
+    // dx = x11, dy = x10
+    mul x12, x11, x11    // dx^2
+    mul x13, x10, x10    // dy^2
+    add x14, x12, x13    // dx^2 + dy^2
+    mul x15, x7, x7      // radio^2
+    cmp x14, x15
+    bgt skip_pixel       // si está fuera del círculo, no dibujar
 
-    Circulo_down:  mov x3, 66
-                   
+    // calcular posición en framebuffer
+    add x16, x5, x11     // x = centro_x + dx
+    add x17, x6, x10     // y = centro_y + dy
 
-      loop_3:   sub x5, x3, 40 
-                cbz x5, exit 
-                
-               mul x11, x5, x5
-               mul x12, x4, x4
-              sub x11, x11, x12
-               ucvtf s11, x11                       
-               fsqrt s11, s11                         
-               fmov s2, 2.0                                    
-               fmul s11, s11, s2                                         
-               fcvtzu x11, s11  
-               
+    // offset = (y * SCREEN_WIDTH + x) * 4
+    mov x18, SCREEN_WIDTH  // por ejemplo, 640
+    mul x19, x17, x18      // y * ancho
+    add x19, x19, x16      // + x
+    lsl x19, x19, 2        // *4
+    add x21, x20, x19      // dirección final
 
-               mov x6, 160                 
-               sub  x6, x6, x11, lsr #1    
-               mov x10, x11
-               
-loop_4:     mul x8, x3, x1
-               add x8, x6, x8  
-               lsl x8, x11, 2
-               add x8, x0, x8
-               stur w12, [x8]
+    str w9, [x21]          // escribir pixel rojo
 
-               add x6, x6, 1
-               sub x10, x10, 1
-               cbnz x10, loop_2
-               
-               sub x3, x3, 1
-               b loop_3
-exit: ret
-         
-    
+skip_pixel:
+    add x11, x11, 1
+    b loop_x
+
+siguiente_y:
+    add x10, x10, 1
+    b loop_y
+
+fin_circulo:
+    ret                          
+              
+
 .global draw_vela
 
 draw_vela:
