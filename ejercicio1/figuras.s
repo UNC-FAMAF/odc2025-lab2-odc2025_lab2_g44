@@ -65,36 +65,27 @@ loop_columnas_down:
 
 
  draw_sol:
-// vamos a hacer el uso de la ecuación de la circunferencia x² + y² = r². 
-// como queremos calcular el ancho que se debe recorrer para pintar cada pixel, despejamos el x (el ancho en la ecuación) -> x = √(r² - y²)
- 
-         mov x3, 65         // centro vertical = y
-         mov x4, 40          // radio vertical  = r
-         mov x5, 25        // fila inicial, X5 = centro - radio = 25
-         mov x19, 80      // contador de filas
+               mov x3, 66
+                   
 
-loop_1:
-        subs x7, x5, x3      // distancia entre la fila actual y el centro. 
-        cmp x7, 0
-        bge calcular_ancho
-        sub x7, xzr, x7     // Si la distancia es un valor negativo, lo hacemos positivo
-
-            // calculamos el ancho de la fila actual
+      loop_3:   sub x5, x3, 40 
+                cbz x5, exit 
+                
+               mul x11, x5, x5
+               mul x12, x4, x4
+              sub x11, x11, x12
+               ucvtf s11, x11                       
+               fsqrt s11, s11                         
+               fmov s2, 2.0                                    
+               fmul s11, s11, s2                                         
+               fcvtzu x11, s11  
                
-  calcular_ancho:  mul x11, x7, x7      //  y²
-                   mul x9, x4, x4      //   r²
-                   sub x11, x9, x11     // r² - y²
-                   ucvtf s11, x11       // convierto  r² - y² en flotante
-                   fsqrt s11, s11        // √(r² - y²) en punto flotante
-                   fmov s2, 2.0          // s2 = 2.0 de tipo
-                   fmul s11, s11, s2      //  s11 = √(r² - y²) * 2.0  Multiplico el ancho de la mitad de la fila -> el ancho completo de la fila
-                   fcvtzu x11, s11      // convierto    √(r² - y²) * 2.0 en un numero natural
 
-                   mov x6, 160                 // Esto ubica el inicio de la línea de forma que quede centrada horizontalmente respecto a la columna 160
-                   sub  x6, x6, x11, lsr #1     // x6 = centro - ancho/2
-                   mov x10, x11                 // copiamos el ancho de la fila a x10 para usarlo como contador
-
-   loop_2:     mul x8, x5, x1
+               mov x6, 160                 
+               sub  x6, x6, x11, lsr #1    
+               mov x10, x11
+               
+loop_4:     mul x8, x3, x1
                add x8, x6, x8  
                lsl x8, x8, 2
                add x8, x0, x8
@@ -102,12 +93,11 @@ loop_1:
 
                add x6, x6, 1
                sub x10, x10, 1
-               cbnz x10, loop_2
+               cbnz x10, loop_4
                
-               add x5, x5, 1
-               sub x19, x19, 1
-               cbnz x19, loop_1
-         ret
+               sub x3, x3, 1
+               b loop_3
+exit: ret
          
     
 .global draw_vela
