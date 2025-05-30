@@ -65,37 +65,35 @@ loop_columnas_down:
 
 
  draw_sol:
-//-----INTENTO PARTE DE ARRIBA------
-// el circulo va a tener columna inicial=110 , fila inicial=65
 // vamos a hacer el uso de la ecuación de la circunferencia x² + y² = r². 
-// como queremos calcular la distancia a la que va a estar el pixel desde el centro del cielo para pintarlo la incógnita sera r = 2 * √(x² + y²)
+// como queremos calcular el ancho que se debe recorrer para pintar cada pixel, despejamos el x (el ancho en la ecuación) -> x = √(r² - y²)
  
-               mov x3, 65         // fila inicial
-               mov x4, 50          // radio  
+         mov x3, 65         // centro vertical = y
+         mov x4, 40          // radio vertical  = r
+         mov x5, 25        // fila inicial, X5 = centro - radio = 25
+
+loop_1:
+        sub x7, x5, x3      // distancia entre la fila actual y el centro. 
+        cmp x7, 0
+        bge calcular_ancho
+        sub x7, xzr, x7     // Si la distancia es un valor negativo, lo hacemos positivo
+
+            // calculamos el ancho de la fila actual
                
+  calcular_ancho:  mul x11, x7, x7      //  y²
+                   mul x9, x4, x4.      //   r²
+                   sub x11, x9, x11     // r² - y²
+                   ucvtf s11, x11       // convierto  r² - y² en flotante
+                   fsqrt s11, s11        // √(r² - y²) en punto flotante
+                   fmov s2, 2.0          // s2 = 2.0 de tipo
+                   fmul s11, s11, s2      //  s11 = √(r² - y²) * 2.0  Multiplico el ancho de la mitad de la fila -> el ancho completo de la fila
+                   fcvtzu x11, s11      // convierto    √(r² - y²) * 2.0 en un numero natural
 
-   loop_1:
-               sub x5, x3, 40      // centro vertical del círculo
-               cbz x5, exit
+                   mov x6, 160                 // Esto ubica el inicio de la línea de forma que quede centrada horizontalmente respecto a la columna 160
+                   sub  x6, x6, x11, lsr #1     // x6 = centro - ancho/2
+                   mov x10, x11                 // copiamos el ancho de la fila a x10 para usarlo como contador
 
-               // calculamos el ancho de cada fila
-               
-               mul x11, x5, x5
-               mul x9, x4, x4
-               add x11, x9, x11
-               ucvtf s11, x11                       // UCVTF Sd, Xn, #fbits. Convert unsigned 64-bit fixed-point in Xn to single-precision scalar in Sd, using FPCR rounding mode
-               fsqrt s11, s11                          //FSQRT Sd, Sn.    Single-precision floating-point scalar square root: Sd = sqrt(Sn).
-               fmov s2, 2.0                                     // FMOV Sd, #fpimm. Single-precision floating-point move immediate Sd = fpimm.
-               fmul s11, s11, s2                                         // FMUL Sd, Sn, Sm .  Single-precision floating-point scalar multiply: Sd = Sn * Sm.
-               fcvtzu x11, s11                         //FCVTZU Xd, Sn, #fbits. Convert single-precision scalar in Sn to unsigned 64-bit fixed-point in Xd, rounding towards zero.
-
-               
-               mov x6, 160                  // Esto ubica el inicio de la línea de forma que quede centrada horizontalmente respecto a la columna 160
-               sub  x6, x6, x11, lsr #1     // x6 = centro - ancho/2
-               mov x10, x11                 // copiamos el ancho de la fila a x10 para usarlo como contador
-
-
-   loop_2:     mul x8, x3, x1
+   loop_2:     mul x8, x5, x1
                add x8, x6, x8  
                lsl x8, x8, 2
                add x8, x0, x8
@@ -105,10 +103,12 @@ loop_columnas_down:
                sub x10, x10, 1
                cbnz x10, loop_2
                
-               sub x3, x3, 1
-               b loop_1
-    exit : ret
-
+               add x5, x5, 1
+               cmp x5, 105   // 65 + 40 = 105 -> ultima fila
+               bne loop_1
+         ret
+         
+    
 .global draw_vela
 
 draw_vela:
