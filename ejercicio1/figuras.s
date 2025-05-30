@@ -71,6 +71,7 @@ loop_columnas_down:
          mov x3, 65         // centro vertical = y
          mov x4, 40          // radio vertical  = r
          mov x5, 25        // fila inicial, X5 = centro - radio = 25
+         mov x19, 80      // contador de filas
 
 loop_1:
         subs x7, x5, x3      // distancia entre la fila actual y el centro. 
@@ -103,9 +104,9 @@ loop_1:
                sub x10, x10, 1
                cbnz x10, loop_2
                
-               adds x5, x5, 1
-               cmp x5, 105   // 65 + 40 = 105 -> ultima fila
-               bne loop_1
+               add x5, x5, 1
+               sub x19, x19, 1
+               cbnz x19, loop_1
          ret
          
     
