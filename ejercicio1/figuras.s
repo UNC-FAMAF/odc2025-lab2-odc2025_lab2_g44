@@ -65,33 +65,30 @@ loop_columnas_down:
 
 
  draw_sol:
-// x0 = framebuffer base
-   mov x4, 160
-   mov x2, 65
-   mov x3, 30
-
-    mov x20, x0        // framebuffer base
+     mov x4, 160  // columna inicial  --> centro x
+     mov x2, 65  // fila inicial --> centro y
+     mov x3, 50  // radio
+   
     mov x5, x4         // centro x
     mov x6, x2         // centro y
     mov x7, x3         // radio
 
     movz x9, 0xFF, lsl 16   
-    movk x9, 0xF700, lsl 0
+    movk x9, 0xF700, lsl 0  // color amarillo
 
     // loop sobre y desde -radio hasta +radio
-    mov x10, -1
-    mul x10, x7, x10     // x10 = -radio
-    loop_y:
-    cmp x10, x7
-    bgt fin_circulo
+          mov x10, -1
+          mul x10, x7, x10     // x10 = -radio
+   loop_y:
+          cmp x10, x7
+          bgt fin_circulo
 
     // loop sobre x desde -radio hasta +radio
-    mov x11, -1
-    mul x11, x7, x11     // x11 = -radio
-
-loop_x:
-    cmp x11, x7
-    bgt siguiente_y
+          mov x11, -1
+          mul x11, x7, x11     // x11 = -radio
+   loop_x:
+          cmp x11, x7
+          bgt siguiente_y
 
     // dx = x11, dy = x10
     mul x12, x11, x11    // dx^2
@@ -110,7 +107,7 @@ loop_x:
     mul x19, x17, x18      // y * ancho
     add x19, x19, x16      // + x
     lsl x19, x19, 2        // *4
-    add x21, x20, x19      // dirección final
+    add x21, x0, x19      // dirección final
 
     str w9, [x21]          // escribir pixel rojo
 
