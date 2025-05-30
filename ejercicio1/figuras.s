@@ -66,16 +66,16 @@ loop_columnas_down:
 
  draw_sol:
 // x0 = framebuffer base
-// x1 = centro x (horizontal)
-// x2 = centro y (vertical)
-// x3 = radio
+   mov x4, 160
+   mov x2, 65
+   mov x3, 30
 
     mov x20, x0        // framebuffer base
-    mov x5, x1         // centro x
+    mov x5, x4         // centro x
     mov x6, x2         // centro y
     mov x7, x3         // radio
 
-    movz x9, 0xFF, lsl 16   // color rojo en RGB: 0xFF0000
+    movz x9, 0xFF, lsl 16   
     movk x9, 0xF700, lsl 0
 
     // loop sobre y desde -radio hasta +radio
@@ -106,7 +106,7 @@ loop_x:
     add x17, x6, x10     // y = centro_y + dy
 
     // offset = (y * SCREEN_WIDTH + x) * 4
-    mov x18, SCREEN_WIDTH  // por ejemplo, 640
+    mov x18, x1 
     mul x19, x17, x18      // y * ancho
     add x19, x19, x16      // + x
     lsl x19, x19, 2        // *4
