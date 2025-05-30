@@ -99,7 +99,7 @@ movk x12, 0xB266, lsl 0       // Color blanco
 
 mov x3, 100         // fila inicial (un poco más arriba del barco)
 mov x4, 315         // columna justo a la izquierda del mástil
-mov x5, 180          // altura de la vela
+mov x5, 100          // altura de la vela
 mov x6, 0           // dirección izquierda
 bl draw_vela
 
