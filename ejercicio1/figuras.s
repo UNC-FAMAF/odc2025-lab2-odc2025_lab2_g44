@@ -2,6 +2,7 @@
 .global draw_mastil
 .global draw_sol
 .global draw_vela
+.global dibujar_lineas_agua
 
 
 //----------------- MASTIL DEL BARCO ------------------//
