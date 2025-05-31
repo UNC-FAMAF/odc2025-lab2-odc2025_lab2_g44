@@ -1,9 +1,10 @@
 .global draw_barco
 .global draw_mastil
 .global draw_sol
+.global draw_vela
 
 
-
+//----------------- MASTIL DEL BARCO ------------------//
 draw_mastil:   
     // 
     mov x3, 300            // fila inicial
@@ -63,7 +64,7 @@ loop_columnas_down:
 
     ret
 
-
+//----------------------- SOL -----------------------//
  draw_sol:
      mov x4, 160  // columna inicial  --> centro x
      mov x2, 65  // fila inicial --> centro y
@@ -121,9 +122,8 @@ siguiente_y:
 
 fin_circulo:
     ret                          
-              
 
-.global draw_vela
+//------------------ VELAS BARCO ------------------//
 
 draw_vela:
     // x0: framebuffer
@@ -175,5 +175,54 @@ vela_col_loop:
     sub x8, x8, 1
     cbnz x8, vela_loop
 
+    ret
+
+//------------------- LINEAS DEL AGUA ---------------------//
+
+dibujar_lineas_agua:
+    
+    // x0 = dirección base framebuffer
+    // x1 = SREEN_WIDTH
+    
+    mov x3, 40    // x3 = posición x inicial
+    mov x2, 400   // x2 = posición y inicial
+
+    mov x5, x3         // x inicial
+    mov x6, x2         // y inicial
+    mov x7, 30         // ancho cuadrado
+    mov x8, 5         // alto cuadrado
+
+    movz x9, 0xB4, lsl 16  // color celeste
+    movk x9, 0xDAEB, lsl 0
+
+    mov x10, #0         // contador y
+alto_loop_y:
+    cmp x10, x8
+    bge fin_linea
+
+    mov x11, #0         // contador x
+ancho_loop_x:
+    cmp x11, x7
+    bge inc_y
+
+    // offset = (y + x*width) * 4 bytes
+    add x12, x5, x11      // x final
+    add x13, x6, x10      // y final
+ 
+    mul x14, x13, x1     // y * width
+    add x14, x14, x12     // + x
+    lsl x14, x14, 2       // *4 (bytes por pixel)
+    add x15, x0, x14     // dir = base + offset
+
+    str w9, [x15]         // escribir pixel rojo
+
+    add x11, x11, #1
+    b ancho_loop_x
+
+inc_y:
+    add x10, x10, #1
+    b alto_loop_y
+
+fin_linea:
     ret
 
