@@ -179,19 +179,31 @@ vela_col_loop:
     ret
 
 //------------------- LINEAS DEL AGUA ---------------------//
+tabla_Y_posiciones: .dword 250, 267, 280, 290, 300, 310, 330, 350, 366, 378, 400, 394, 400, 415, 426, 458, 432, 467, 473 
+tabla_X_posiciones: .dword 40, 60, 589, 577, 320, 399, 530, 220, 100, 540, 40, 549, 430, 320, 200, 366, 590, 588, 576 
 
-dibujar_lineas_agua:
+
+bucle_lineas : 
+    ldr x19, =tabla_Y_posiciones
+    ldr x20, =tabla_X_posiciones
+    mov x21, 19  // cantidad de lineas
+    mov x22, 0   // indice tabla Y
+    mov x23, 0  // indice tabla X
+
     
-    // x0 = dirección base framebuffer
-    // x1 = SREEN_WIDTH
+dibujar_lineas_agua: 
+    cmp x22, x21
+    beq exit
     
-    mov x3, 40    // x3 = posición x inicial
-    mov x2, 400   // x2 = posición y inicial
+    lsl x23, 2
+    ldr x3, [x20, x23]    // x3 = posición x inicial
+    lsl x22, 2
+    ldr x2, [x19, x22]    // x2 = posición y inicial
 
     mov x5, x3         // x inicial
     mov x6, x2         // y inicial
-    mov x7, 30         // ancho cuadrado
-    mov x8, 5         // alto cuadrado
+    mov x7, 50         // ancho cuadrado
+    mov x8, 3         // alto cuadrado
 
     movz x9, 0xB4, lsl 16  // color celeste
     movk x9, 0xDAEB, lsl 0
@@ -225,5 +237,9 @@ inc_y:
     b alto_loop_y
 
 fin_linea:
-    ret
+    add x22, x22, 1
+    add x23, x23, 1
+    b dibujar_lineas_agua
+    
+exit: ret
 
