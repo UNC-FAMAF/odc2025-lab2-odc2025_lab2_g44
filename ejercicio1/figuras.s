@@ -187,18 +187,21 @@ bucle_lineas :
     ldr x19, =tabla_Y_posiciones
     ldr x20, =tabla_X_posiciones
     mov x21, 19  // cantidad de lineas
-    mov x22, 0   // indice tabla Y
-    mov x23, 0  // indice tabla X
+    mov x22, 0   // indice tabla
 
     
 dibujar_lineas_agua: 
     cmp x22, x21
     beq exit
     
-    lsl x23, x23, 2
-    ldr x3, [x20, x23]    // x3 = posición x inicial
-    lsl x22, x22, 2
-    ldr x2, [x19, x22]    // x2 = posición y inicial
+    // usar temporales para evitar modificar x22
+    mov x24, x22
+    lsl x24, x24, #3         // .dword = 8 bytes → x8 = LSL #3
+    ldr x3, [x20, x24]       // x3 ← X
+
+    mov x25, x22
+    lsl x25, x25, #3         // también LSL #3
+    ldr x2, [x19, x25]       // x2 ← Y
 
     mov x5, x3         // x inicial
     mov x6, x2         // y inicial
