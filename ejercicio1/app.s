@@ -9,7 +9,7 @@
 .globl main
 
 main:
-    // x0 = dirección base del framebuffer
+                               // x0 = dirección base del framebuffer
     mov x20, x0               // guardamos base framebuffer
 
     // ---------------- MITAD SUPERIOR: CELESTE ----------------
@@ -81,10 +81,9 @@ degradado_x:
     b.ne degradado_y
 
 
+//------------------- Barquito ------------------- //  
 
-
-    // BARQUITO  
-    mov x0, x20                  // Dirección base del framebuffer
+mov x0, x20                  // Dirección base del framebuffer
 mov x1, SCREEN_WIDTH         // Ancho de la pantalla
 mov x2, SCREEN_HEIGH         // Alto de la pantalla
 
@@ -92,9 +91,11 @@ mov x2, SCREEN_HEIGH         // Alto de la pantalla
 // Mástil (negro)
 movz x12, 0x0000, lsl 16
 movk x12, 0x0000, lsl 0      // Color negro
+
 bl draw_mastil
 
-// -------- Vela izquierda (blanca) ----------
+
+// ------------ Vela izquierda (blanca) ---------- //
 movz x12, 0xFF, lsl 16
 movk x12, 0xB266, lsl 0       // Color blanco
 
@@ -120,12 +121,16 @@ mov x4, 200                  // Columna inicial
 mov x5, 340                   // Ancho del submarino
 bl draw_barco
 
-    //---------Circulo Sol-------------------//
+    //--------- Sol -------------------//
 mov x1, SCREEN_WIDTH
 mov x0, x20                 // inicializamos el x0 con la direcc base del frame
 
 bl draw_sol
 
+
+ // --------- Lineas del agua ---------//
+
+bl dibujar_lineas_agua
 
     // ---------------- Bucle infinito ----------------
 InfLoop:
