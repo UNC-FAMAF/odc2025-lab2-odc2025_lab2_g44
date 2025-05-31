@@ -195,9 +195,9 @@ dibujar_lineas_agua:
     cmp x22, x21
     beq exit
     
-    lsl x23, 2
+    lsl x23, x23, 2
     ldr x3, [x20, x23]    // x3 = posición x inicial
-    lsl x22, 2
+    lsl x22, x22, 2
     ldr x2, [x19, x22]    // x2 = posición y inicial
 
     mov x5, x3         // x inicial
