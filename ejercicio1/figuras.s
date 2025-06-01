@@ -179,14 +179,14 @@ vela_col_loop:
     ret
 
 //------------------- LINEAS DEL AGUA ---------------------//
-tabla_Y_posiciones: .dword 250, 267, 280, 290, 300, 310, 330, 350, 366, 378, 400, 394, 400, 415, 426, 458, 432, 467, 473 
-tabla_X_posiciones: .dword 40, 60, 589, 577, 320, 399, 530, 220, 100, 540, 40, 549, 430, 320, 200, 366, 590, 588, 576 
+tabla_Y_posiciones: .dword 250, 267
+tabla_X_posiciones: .dword 40, 60
 
 
 bucle_lineas : 
     ldr x19, =tabla_Y_posiciones
     ldr x20, =tabla_X_posiciones
-    mov x21, 19  // cantidad de lineas
+    mov x21, 2  // cantidad de lineas
     mov x22, 0   // indice tabla
 
     
@@ -196,12 +196,12 @@ dibujar_lineas_agua:
     
     // usar temporales para evitar modificar x22
     mov x24, x22
-    lsl x24, x24, #3  // .dword = 8 bytes → *8 = LSL #3
+    lsl x24, x24, 3  // .dword = 8 bytes → *8 = LSL #3
     add x24, x20, x24
     ldr x3, [x24]       // x3 ← X
 
     mov x25, x22
-    lsl x25, x25, #3         // también LSL #3
+    lsl x25, x25, 3         // también LSL #3
     add x25, x19, x25
     ldr x2, [x25]       // x2 ← Y
 
@@ -213,12 +213,12 @@ dibujar_lineas_agua:
     movz x9, 0xB4, lsl 16  // color celeste
     movk x9, 0xDAEB, lsl 0
 
-    mov x10, #0         // contador y
+    mov x10, 0         // contador y
 alto_loop_y:
     cmp x10, x8
     bge fin_linea
 
-    mov x11, #0         // contador x
+    mov x11, 0         // contador x
 ancho_loop_x:
     cmp x11, x7
     bge inc_y
@@ -234,16 +234,15 @@ ancho_loop_x:
 
     str w9, [x15]         // escribir pixel rojo
 
-    add x11, x11, #1
+    add x11, x11, 1
     b ancho_loop_x
 
 inc_y:
-    add x10, x10, #1
+    add x10, x10, 1
     b alto_loop_y
 
 fin_linea:
     add x22, x22, 1
-    add x23, x23, 1
     b dibujar_lineas_agua
     
 exit: ret
