@@ -310,7 +310,8 @@ sig_fila_letra:
 
 fin_letra: ret
 
--------------// Función para dibujar un cuadrado rojo de tamaño fijo 5x5 en (x, y) -------------
+//------------- Función para dibujar un cuadrado rojo de tamaño fijo 5x5 en (x, y) -------------//
+
 dibujar_cuadr5x5:
     // x0 = dirección base framebuffer
     // x1 = SCREEN_WIDHT
@@ -352,7 +353,6 @@ sig_fila_y:
     add x10, x10, #1
     b cuadr5x5_loop_y
 
-fin_cuadr5x5:
-    ret
+fin_cuadr5x5: ret
 
 
