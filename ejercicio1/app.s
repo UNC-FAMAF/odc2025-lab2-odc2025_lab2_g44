@@ -99,14 +99,14 @@ bl draw_mastil
 movz x12, 0xFE, lsl 16
 movk x12, 0xFFE4, lsl 0       // Color crema
 
-mov x3, 150         // fila inicial 
+mov x3, 122         // fila inicial 
 mov x4, 315         // columna justo a la izquierda del mástil
 mov x5, 120          // altura de la vela
 mov x6, 0           // dirección izquierda
 bl draw_vela
 
 // -------- Vela derecha ------------//
-mov x3, 150
+mov x3, 122
 mov x4, 330         // columna justo a la derecha del mástil
 mov x5, 120
 mov x6, 1           // dirección derecha
