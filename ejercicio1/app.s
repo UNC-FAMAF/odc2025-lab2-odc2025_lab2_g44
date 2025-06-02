@@ -5,6 +5,7 @@
 
 .extern draw_barco
 .extern draw_sol
+.extern odc_2025
 
 .globl main
 
@@ -141,7 +142,7 @@ mov x2, 105 // fila inicial
 movz x9, 0xFF, lsl 16
 movk x9, 0xEF00, lsl 0      // Color
 
-bl Odc_2025
+bl odc_2025
 
     // ---------------- Bucle infinito ----------------
 InfLoop:
