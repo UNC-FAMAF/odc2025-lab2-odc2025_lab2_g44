@@ -248,3 +248,104 @@ fin_linea:
     
 exit: ret
 
+
+//------------- texto odc ---------//
+letra_O:
+    .byte 1, 1, 1, 1, 1
+    .byte 1, 0, 0, 0, 1
+    .byte 1, 0, 0, 0, 1
+    .byte 1, 0, 0, 0, 1
+    .byte 1, 1, 1, 1, 1
+
+Odc_2025:
+ldr x24, =letra_O     // Dirección de la matriz
+mov x6, 0             // fila = 0
+
+bucle_filas:
+    cmp x6, 5
+    bge fin_letra
+
+    mov x5, 0         // columna = 0
+bucle_columnas:
+    cmp x5, 5
+    bge sig_fila
+
+    // Calcular offset: fila * 5 + columna
+    mov x10, x6
+    mul x10, x10, 5
+    add x10, x10, x5
+    add x11, x24, x10     // dirección del byte
+    ldrb w12, [x11]       // cargar byte (w12 = 0 o 1)
+
+    cbz w12, no_dibujar
+
+    // Calcular coordenadas en pantalla
+    mov x19, x3      // x base
+    mov x20, x2      // y base
+    mov x21, x5
+    lsl x21, x21, #2     // columna * 4
+    add x21, x21, x19
+
+    mov x22, x6
+    lsl x22, x22, #2     // fila * 4
+    add x22, x22, x20
+
+    mov x3, x21          // x para dibujar
+    mov x2, x22          // y para dibujar
+    bl dibujar_cuadr5x5  // función que pinta un cuadrado 5x5
+
+no_dibujar:
+    add x5, x5, 1
+    b bucle_columnas
+
+sig_fila:
+    add x6, x6, 1
+    b bucle_filas
+
+fin_letra:
+    ret
+
+//------ dibujar_cuadr5x5 --------//
+
+dibujar_cuadr5x5:
+    // x0 = dirección base framebuffer
+    // x1 = SCREEN_WIDHT
+    // x3 = posición x inicial
+    // x2 = posición y inicial
+    // x9 = color
+
+    mov x5, x3         // x inicial
+    mov x6, x2         // y inicial
+    mov x7, 5         // ancho cuadrado
+    mov x8, 5         // alto cuadrado
+
+    mov x10, #0         // contador y
+cuadr5x5_loop_y:
+    cmp x10, x8
+    bge fin_cuadr5x5
+
+    mov x11, #0         // contador x
+cuadr5x5_loop_x:
+    cmp x11, x7
+    bge sig_fila_y
+
+    // offset = (x + y * width) * 4 bytes
+    add x12, x5, x11      // x final
+    add x13, x6, x10      // y final
+    
+    mul x14, x13, x1     // y * width
+    add x14, x14, x12     // + x
+    lsl x14, x14, 2       // *4 (bytes por pixel)
+    add x15, x0, x14     // dir = base + offset
+
+    str w9, [x15]         // escribir pixel rojo
+
+    add x11, x11, #1
+    b cuadr5x5_loop_x
+
+sig_fila_y:
+    add x10, x10, #1
+    b cuadr5x5_loop_y
+
+fin_cuadr5x5: ret
+
