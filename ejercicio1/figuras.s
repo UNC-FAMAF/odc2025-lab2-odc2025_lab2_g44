@@ -257,7 +257,7 @@ letra_O:
     .byte 1, 0, 0, 0, 1
     .byte 1, 1, 1, 1, 1
 
-Odc_2025:
+odc_2025:
 ldr x24, =letra_O     // Dirección de la matriz
 mov x6, 0             // fila = 0
 
