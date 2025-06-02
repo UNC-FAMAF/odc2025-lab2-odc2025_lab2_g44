@@ -137,8 +137,8 @@ bl dibujar_lineas_agua
 mov x3, 332 // columna inicial
 mov x2, 105 // fila inicial
 
-movz x12, 0xCE, lsl 16
-movk x12, 0xD8FC, lsl 0      // Color 
+movz x9, 0xCE, lsl 16
+movk x9, 0xD8FC, lsl 0      // Color 
 
  
 
