@@ -179,8 +179,8 @@ vela_col_loop:
     ret
 
 //------------------- LINEAS DEL AGUA ---------------------//
-tabla_Y_posiciones: .dword 250, 267
-tabla_X_posiciones: .dword 40, 60
+tabla_Y_posiciones: .dword 250, 267, 280, 290, 300, 310, 330, 350, 366, 378, 400, 394, 400, 415, 426, 458, 432, 467, 473
+tabla_X_posiciones: .dword 40, 60, 589, 577, 320, 399, 530, 220, 100, 540, 40, 549, 430, 320, 200, 366, 590, 588, 576
 
 dibujar_lineas_agua:
     ldr x19, =tabla_Y_posiciones
