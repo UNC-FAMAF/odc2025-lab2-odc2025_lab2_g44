@@ -179,10 +179,10 @@ vela_col_loop:
     ret
 
 //------------------- LINEAS DEL AGUA ---------------------//
-dibujar_lineas_agua:
 tabla_Y_posiciones: .dword 250, 267
 tabla_X_posiciones: .dword 40, 60
 
+dibujar_lineas_agua:
     ldr x19, =tabla_Y_posiciones
     ldr x20, =tabla_X_posiciones
     mov x21, 2  // cantidad de líneas
@@ -190,7 +190,7 @@ tabla_X_posiciones: .dword 40, 60
 
 bucle_lineas: 
     cmp x22, x21
-    bge exit
+    beq exit
 
     // Leer X
     mov x24, x22
