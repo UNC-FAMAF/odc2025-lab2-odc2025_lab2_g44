@@ -81,7 +81,7 @@ degradado_x:
     b.ne degradado_y
 
 
-//------------------- Barquito ------------------- //  
+//------------------- Mastil ------------------- //  
 
 mov x0, x20                  // Dirección base del framebuffer
 mov x1, SCREEN_WIDTH         // Ancho de la pantalla
@@ -95,17 +95,17 @@ movk x12, 0x0000, lsl 0      // Color negro
 bl draw_mastil
 
 
-// ------------ Vela izquierda (blanca) ---------- //
-movz x12, 0xFF, lsl 16
-movk x12, 0xB266, lsl 0       // Color blanco
+// ------------ Vela izquierda ----------- //
+movz x12, 0xFE, lsl 16
+movk x12, 0xFFE4, lsl 0       // Color crema
 
 mov x3, 100         // fila inicial (un poco más arriba del barco)
 mov x4, 315         // columna justo a la izquierda del mástil
-mov x5, 100          // altura de la vela
+mov x5, 150          // altura de la vela
 mov x6, 0           // dirección izquierda
 bl draw_vela
 
-// -------- Vela derecha (blanca) ----------
+// -------- Vela derecha ------------//
 mov x3, 100
 mov x4, 330         // columna justo a la derecha del mástil
 mov x5, 100
@@ -113,6 +113,7 @@ mov x6, 1           // dirección derecha
 bl draw_vela
 
 
+//----------- Barco ---------------//
 movz x12, 0xE9, lsl 16
 movk x12, 0x0E0E, lsl 0      // Color ROJO
 
