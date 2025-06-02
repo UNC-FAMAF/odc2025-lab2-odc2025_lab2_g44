@@ -350,3 +350,48 @@ sig_fila_y:
 
 fin_cuadr5x5: ret
 
+//-----------------------------BANDERA-----------------------------------//
+draw_bandera:
+    // x0: framebuffer
+    // x1: ancho pantalla
+    // x2: alto pantalla
+    // x3: fila inicial
+    // x4: columna inicial (el mástil)
+    // x15: altura de la bandera
+    // x6: 0 = izquierda, 1 = derecha
+    // x12: color
+      
+    mov x7, 1          // ancho inicial (punta del triángulo)
+    mov x8, x15         // altura (cantidad de filas)
+    
+bandera_loop:
+    mov x9, x7         // ancho actual    
+bandera_derecha:
+    mov x10, x4        // Si es derecha: arranca desde mástil
+
+seguir_bandera:
+    // Pintar línea horizontal (ancho de la fila)
+bandera_col_loop:
+    mul x11, x3, x1
+    add x11, x10, x11
+    lsl x11, x11, 2
+    add x11, x0, x11
+    stur w12, [x11]
+
+    add x10, x10, 1
+    sub x9, x9, 1
+    cbnz x9, vela_col_loop
+
+    // Ir a la siguiente fila
+    add x3, x3, 1
+
+    // Aumentar el ancho (triángulo crece en la base)
+    add x7, x7, 1
+
+    // Bajar altura
+    sub x8, x8, 1
+    cbnz x8, vela_loop
+
+    ret
+    
+
