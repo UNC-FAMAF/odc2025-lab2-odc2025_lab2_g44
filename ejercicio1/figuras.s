@@ -10,7 +10,7 @@
 draw_mastil:   
     // 
     mov x3, 300            // fila inicial
-    mov x6, 200             // alto (cantidad de filas a pintar)
+    mov x6, 250             // alto (cantidad de filas a pintar)
     mov x7, 5             // ancho (cantidad de columnas)
 
 loop_filas_mastil:
