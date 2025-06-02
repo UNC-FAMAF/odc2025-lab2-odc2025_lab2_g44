@@ -210,8 +210,8 @@ bucle_lineas:
     mov x7, 60         // ancho cuadrado
     mov x8, 3         // alto cuadrado
 
-    movz x9, 0xB4, lsl 16  // color celeste
-    movk x9, 0xDAEB, lsl 0
+    movz x9, 0x43, lsl 16  // color celeste
+    movk x9, 0xA8DB, lsl 0
 
     mov x10, 0         // contador y
 alto_loop_y:
