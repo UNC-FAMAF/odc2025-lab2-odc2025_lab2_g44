@@ -185,7 +185,7 @@ tabla_X_posiciones: .dword 40, 60, 589, 577, 320, 399, 530, 220, 100, 540, 40, 5
 dibujar_lineas_agua:
     ldr x19, =tabla_Y_posiciones
     ldr x20, =tabla_X_posiciones
-    mov x21, 2  // cantidad de líneas
+    mov x21, 19  // cantidad de líneas
     mov x22, 0   // índice
 
 bucle_lineas: 
@@ -207,7 +207,7 @@ bucle_lineas:
 
     mov x5, x3         // x inicial
     mov x6, x2         // y inicial
-    mov x7, 50         // ancho cuadrado
+    mov x7, 60         // ancho cuadrado
     mov x8, 3         // alto cuadrado
 
     movz x9, 0xB4, lsl 16  // color celeste
