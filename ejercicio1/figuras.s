@@ -3,7 +3,7 @@
 .global draw_sol
 .global draw_vela
 .global dibujar_lineas_agua
-.global Odc_2025
+.global odc_2025
 
 
 //----------------- MASTIL DEL BARCO ------------------//
