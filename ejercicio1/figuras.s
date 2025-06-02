@@ -304,7 +304,7 @@ no_dibujar:
     add x5, x5, 1
     b bucle_columnas
 
-sig_fila_letra:
+sig_fila:
     add x6, x6, 1
     b bucle_filas
 
