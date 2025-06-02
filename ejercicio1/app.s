@@ -145,12 +145,12 @@ movk x9, 0xEF00, lsl 0      // Color
 bl odc_2025
 
 //-------------Bandera----------------//
-movz x12, 0xEC, lsl 16
-movk x12, 0x9808, lsl 0       // Color marroncito
+movz x12, 0xFA, lsl 16
+movk x12, 0x462A, lsl 0       // Color marroncito
 
 mov x3, 50
 mov x4, 330        // columna justo a la derecha del mástil
-mov x15, 70
+mov x15, 50
 mov x6, 1           // dirección derecha
 bl draw_bandera
 
