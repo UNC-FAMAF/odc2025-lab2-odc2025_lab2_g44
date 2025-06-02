@@ -179,6 +179,7 @@ vela_col_loop:
     ret
 
 //------------------- LINEAS DEL AGUA ---------------------//
+dibujar_lineas_agua:
 tabla_Y_posiciones: .dword 250, 267
 tabla_X_posiciones: .dword 40, 60
 
@@ -187,7 +188,7 @@ tabla_X_posiciones: .dword 40, 60
     mov x21, 2  // cantidad de líneas
     mov x22, 0   // índice
 
-dibujar_lineas_agua: 
+bucle_lineas: 
     cmp x22, x21
     bge exit
 
@@ -203,7 +204,7 @@ dibujar_lineas_agua:
     add x25, x19, x25
     ldr x2, [x25]
     
-bucle_lineas:
+
     mov x5, x3         // x inicial
     mov x6, x2         // y inicial
     mov x7, 50         // ancho cuadrado
@@ -242,7 +243,7 @@ inc_y:
 
 fin_linea:
     add x22, x22, 1
-    b dibujar_lineas_agua
+    b bucle_lineas
     
 exit: ret
 
