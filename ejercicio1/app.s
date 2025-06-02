@@ -132,14 +132,6 @@ bl draw_sol
  // --------- Lineas del agua ---------//
 
 bl dibujar_lineas_agua
-
-//------------ odc 2025 --------------//
-mov x3, 332 // columna inicial
-mov x2, 105 // fila inicial
-
-movz x9, 0x00, lsl 16
-movk x9, 0x0000, lsl 0      // Color 
-
  
 
     // ---------------- Bucle infinito ----------------
