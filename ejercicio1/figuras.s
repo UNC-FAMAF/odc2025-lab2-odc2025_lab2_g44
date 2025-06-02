@@ -297,14 +297,62 @@ bucle_columnas:
 
     mov x3, x21                  // x para dibujar
     mov x2, x22                  // y para dibujar
-    bl dibujar_cuadr5x5         // llama a tu función
+    bl dibujar_cuadr5x5          // funcion que dibuja 5x5
+  
 
 no_dibujar:
     add x5, x5, 1
     b bucle_columnas
 
-sig_fila:
+sig_fila_letra:
     add x6, x6, 1
     b bucle_filas
 
 fin_letra: ret
+
+-------------// Función para dibujar un cuadrado rojo de tamaño fijo 5x5 en (x, y) -------------
+dibujar_cuadr5x5:
+    // x0 = dirección base framebuffer
+    // x1 = SCREEN_WIDHT
+    // x3 = posición x inicial
+    // x2 = posición y inicial
+    // x9 = color
+
+    mov x5, x3         // x inicial
+    mov x6, x2         // y inicial
+    mov x7, 5         // ancho cuadrado
+    mov x8, 5         // alto cuadrado
+
+
+    mov x10, #0         // contador y
+cuadr5x5_loop_y:
+    cmp x10, x8
+    bge fin_cuadr5x5
+
+    mov x11, #0         // contador x
+cuadr5x5_loop_x:
+    cmp x11, x7
+    bge sig_fila_y
+
+    // offset = (x + y * width) * 4 bytes
+    add x12, x5, x11      // x final
+    add x13, x6, x10      // y final
+    
+    mul x14, x13, x1     // y * width
+    add x14, x14, x12     // + x
+    lsl x14, x14, 2       // *4 (bytes por pixel)
+    add x15, x0, x14     // dir = base + offset
+
+    str w9, [x15]         // escribir pixel rojo
+
+    add x11, x11, #1
+    b cuadr5x5_loop_x
+
+sig_fila_y:
+    add x10, x10, #1
+    b cuadr5x5_loop_y
+
+fin_cuadr5x5:
+    ret
+
+
