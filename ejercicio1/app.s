@@ -43,7 +43,7 @@ superior_x:
 
     add w4, w4, 1
     subs w2, w2, 1
-    b.ne superior_y //si uedan filas, repito
+    b.ne superior_y //si quedan filas, repito
 
     // ---------------- MITAD INFERIOR: DEGRADADO AZUL ----------------
     mov w2, SCREEN_HEIGH
@@ -108,7 +108,7 @@ bl draw_vela
 // -------- Vela derecha ------------//
 mov x3, 100
 mov x4, 330         // columna justo a la derecha del mástil
-mov x5, 100
+mov x5, 150
 mov x6, 1           // dirección derecha
 bl draw_vela
 
