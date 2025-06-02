@@ -272,7 +272,8 @@ bucle_columnas:
 
     // Calcular offset: fila * 5 + columna
     mov x10, x6
-    mul x10, x10, 5
+    mov x23, 5
+    mul x10, x10, x23 
     add x10, x10, x5
     add x11, x24, x10     // dirección del byte
     ldrb w12, [x11]       // cargar byte (w12 = 0 o 1)
