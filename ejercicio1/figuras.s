@@ -361,7 +361,7 @@ draw_bandera:
     // x6: 0 = izquierda, 1 = derecha
     // x12: color
       
-    mov x7, 1          // ancho inicial (punta del triángulo)
+    mov x7, 70          // ancho inicial (punta del triángulo)
     mov x8, x15         // altura (cantidad de filas)
     
 bandera_loop:
@@ -393,5 +393,6 @@ bandera_col_loop:
     cbnz x8, vela_loop
 
     ret
+    
     
 
