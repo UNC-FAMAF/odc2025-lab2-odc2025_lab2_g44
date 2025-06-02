@@ -244,5 +244,5 @@ fin_linea:
     add x22, x22, 1
     b dibujar_lineas_agua
     
-ret
+exit: ret
 
