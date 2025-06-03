@@ -319,16 +319,16 @@ letra_O:
     // loop sobre y desde -radio hasta +radio
           mov x10, -1
           mul x10, x7, x10     // x10 = -radio
-   loop_y:
+   loop_y_letraO:
           cmp x10, x7
-          bgt fin_circulo
+          bgt fin_letraO
 
     // loop sobre x desde -radio hasta +radio
           mov x11, -1
           mul x11, x7, x11     // x11 = -radio
-   loop_x:
+   loop_x_letraO:
           cmp x11, x7
-          bgt siguiente_y
+          bgt siguiente_y_letraO
 
     // dx = x11, dy = x10
     mul x12, x11, x11    // dx^2
@@ -336,7 +336,7 @@ letra_O:
     add x14, x12, x13    // dx^2 + dy^2
     mul x15, x7, x7      // radio^2
     cmp x14, x15
-    bne skip_pixel       // si está fuera del círculo, no dibujar
+    bne skip_pixel_letraO       // si está fuera del círculo, no dibujar
 
     // calcular posición en framebuffer
     add x16, x5, x11     // x = centro_x + dx
@@ -348,15 +348,15 @@ letra_O:
     bl dibujar_cuadr3x3
     
 
-    skip_pixel:
+    skip_pixel_letraO:
        add x11, x11, 1
-       b loop_x
+       b loop_x_letraO
 
-    siguiente_y:
+    siguiente_y_letraO:
        add x10, x10, 1
-       b loop_y
+       b loop_y_letraO
 
-    fin_circulo:
+    fin_letraO:
        ret      
 
 
