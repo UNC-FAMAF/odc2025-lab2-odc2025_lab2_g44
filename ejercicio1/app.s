@@ -147,14 +147,9 @@ bl draw_bandera
 
 
 //----------------TEXTO--------------------------//
+ 
 
-mov x3, 320
-mov x2, 50
-
-movz x9, 0xFA, lsl 16
-movk x9, 0x462A, lsl 0   
-
-bl dibujar_cuadr5x5
+bl letra_O
 
   
     // ---------------- Bucle infinito ----------------
