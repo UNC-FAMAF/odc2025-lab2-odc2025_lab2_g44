@@ -4,7 +4,7 @@
 .global draw_vela
 .global dibujar_lineas_agua
 .global draw_bandera
-.global Odc_2025
+.global dibujar_cuadr5x5
 
 
 //----------------- MASTIL DEL BARCO ------------------//
