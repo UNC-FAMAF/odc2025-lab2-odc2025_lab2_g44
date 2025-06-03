@@ -400,7 +400,6 @@ sig_fila_y:
     add x10, x10, #1
     b cuadr3x3_loop_y
 
-fin_cuadr3x3:
-    ret
+fin_cuadr3x3: br x30
 
 
