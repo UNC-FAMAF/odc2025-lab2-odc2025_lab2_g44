@@ -302,7 +302,51 @@ bandera_col_loop:
 
     ret
     
-//------------------------------------------------TEXTO------------------------------------------------------------------------------------------//
+//-------------------TEXTO-----------------------//
+
+dibujar_cuadr5x5:
+    // x0 = dirección base framebuffer
+    // x1 = SCREEN_WIDHT
+    // x3 = posición x inicial
+    // x2 = posición y inicial
+    // x9 = color
+
+    mov x5, x3         // x inicial
+    mov x6, x2         // y inicial
+    mov x7, 5         // ancho cuadrado
+    mov x8, 5         // alto cuadrado
+
+
+    mov x10, #0         // contador y
+cuadr5x5_loop_y:
+    cmp x10, x8
+    bge fin_cuadr5x5
+
+    mov x11, #0         // contador x
+cuadr5x5_loop_x:
+    cmp x11, x7
+    bge sig_fila_y
+
+    // offset = (x + y * width) * 4 bytes
+    add x12, x5, x11      // x final
+    add x13, x6, x10      // y final
+    
+    mul x14, x13, x1     // y * width
+    add x14, x14, x12     // + x
+    lsl x14, x14, 2       // *4 (bytes por pixel)
+    add x15, x0, x14     // dir = base + offset
+
+    str w9, [x15]         // escribir pixel rojo
+
+    add x11, x11, #1
+    b cuadr5x5_loop_x
+
+sig_fila_y:
+    add x10, x10, #1
+    b cuadr5x5_loop_y
+
+fin_cuadr5x5: ret
+
    
 
 
