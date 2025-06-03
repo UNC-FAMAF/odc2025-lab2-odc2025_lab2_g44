@@ -32,6 +32,9 @@ loop_columnas_mastil:
     sub x3, x3, 1          // fila anterior (hacia arriba)
     sub x6, x6, 1
     cbnz x6, loop_filas_mastil
+
+    ret
+    
 // -------------- BARCO ------------------//
     draw_barco:
     // Pinta base del barquito
