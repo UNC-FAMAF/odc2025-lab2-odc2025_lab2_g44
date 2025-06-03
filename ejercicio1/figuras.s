@@ -4,7 +4,7 @@
 .global draw_vela
 .global dibujar_lineas_agua
 .global draw_bandera
-.global dibujar_cuadr5x5
+.global letra_O
 
 
 //----------------- MASTIL DEL BARCO ------------------//
@@ -304,26 +304,84 @@ bandera_col_loop:
     
 //-------------------TEXTO-----------------------//
 
-dibujar_cuadr5x5:
+letra_O:
+     mov x3, 330  // columna inicial  --> centro x
+     mov x2, 70  // fila inicial --> centro y
+     mov x4, 5  // radio
+   
+    mov x5, x3         // centro x
+    mov x6, x2         // centro y
+    mov x7, x4         // radio
+
+    movz x9, 0xFF, lsl 16   
+    movk x9, 0xF700, lsl 0  // color amarillo
+
+    // loop sobre y desde -radio hasta +radio
+          mov x10, -1
+          mul x10, x7, x10     // x10 = -radio
+   loop_y:
+          cmp x10, x7
+          bgt fin_circulo
+
+    // loop sobre x desde -radio hasta +radio
+          mov x11, -1
+          mul x11, x7, x11     // x11 = -radio
+   loop_x:
+          cmp x11, x7
+          bgt siguiente_y
+
+    // dx = x11, dy = x10
+    mul x12, x11, x11    // dx^2
+    mul x13, x10, x10    // dy^2
+    add x14, x12, x13    // dx^2 + dy^2
+    mul x15, x7, x7      // radio^2
+    cmp x14, x15
+    bne skip_pixel       // si está fuera del círculo, no dibujar
+
+    // calcular posición en framebuffer
+    add x16, x5, x11     // x = centro_x + dx
+    add x17, x6, x10     // y = centro_y + dy
+
+    movz x9, 0xFF, lsl 16
+    movk x9, 0xF700, lsl 0 // amarillo
+
+    bl dibujar_cuadr3x3
+    
+
+    skip_pixel:
+       add x11, x11, 1
+       b loop_x
+
+    siguiente_y:
+       add x10, x10, 1
+       b loop_y
+
+    fin_circulo:
+       ret      
+
+
+
+
+dibujar_cuadr3x3:
     // x0 = dirección base framebuffer
     // x1 = SCREEN_WIDHT
     // x3 = posición x inicial
     // x2 = posición y inicial
     // x9 = color
 
-    mov x5, x3         // x inicial
-    mov x6, x2         // y inicial
+    mov x5, x16         // x inicial
+    mov x6, x17         // y inicial
     mov x7, 5         // ancho cuadrado
     mov x8, 5         // alto cuadrado
 
 
     mov x10, #0         // contador y
-cuadr5x5_loop_y:
+cuadr3x3_loop_y:
     cmp x10, x8
-    bge fin_cuadr5x5
+    bge fin_cuadr3x3
 
     mov x11, #0         // contador x
-cuadr5x5_loop_x:
+cuadr3x3_loop_x:
     cmp x11, x7
     bge sig_fila_y
 
@@ -339,15 +397,13 @@ cuadr5x5_loop_x:
     str w9, [x15]         // escribir pixel rojo
 
     add x11, x11, #1
-    b cuadr5x5_loop_x
+    b cuadr3x3_loop_x
 
 sig_fila_y:
     add x10, x10, #1
-    b cuadr5x5_loop_y
+    b cuadr3x3_loop_y
 
-fin_cuadr5x5: ret
-
-   
-
+fin_cuadr3x3:
+    ret
 
 
