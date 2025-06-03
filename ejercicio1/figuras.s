@@ -336,14 +336,9 @@ letra_O:
     add x14, x12, x13    // dx^2 + dy^2
     mul x15, x7, x7      // radio^2
 
-    sub x16, x15, 5       // margen para el borde (ajustable)
-
-    // Dibujar solo si (r² - 5 ≤ dist² ≤ r²)
     cmp x14, x15
     bgt skip_pixel_letraO        // si dist² > r², no dibujar
-    cmp x14, x16
-    blt skip_pixel_letraO        // si dist² < r² - 5, tampoco
-
+    
     // calcular posición en framebuffer
     add x16, x5, x11     // x = centro_x + dx
     add x17, x6, x10     // y = centro_y + dy
@@ -373,8 +368,8 @@ dibujar_cuadr3x3:
 
     mov x5, x16         // x inicial
     mov x6, x17         // y inicial
-    mov x7, 5         // ancho cuadrado
-    mov x8, 5         // alto cuadrado
+    mov x7, 3         // ancho cuadrado
+    mov x8, 3         // alto cuadrado
 
 
     mov x10, #0         // contador y
