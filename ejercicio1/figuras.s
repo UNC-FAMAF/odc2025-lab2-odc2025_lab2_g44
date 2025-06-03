@@ -4,6 +4,7 @@
 .global draw_vela
 .global dibujar_lineas_agua
 .global draw_bandera
+.global Odc_2025
 
 
 //----------------- MASTIL DEL BARCO ------------------//
@@ -14,7 +15,7 @@ draw_mastil:
     mov x7, 5             // ancho (cantidad de columnas)
 
 loop_filas_mastil:
-    mov x4, 320            // columna inicial
+    mov x4, 150            // columna inicial
     mov x5, x7             // contador columnas
 
 loop_columnas_mastil:
@@ -32,21 +33,19 @@ loop_columnas_mastil:
     sub x6, x6, 1
     cbnz x6, loop_filas_mastil
 
-    ret
-    
-// -------------- BARCO ------------------//
-    draw_barco:
+//----------------- BARCO ------------------//
+draw_barco:
     // Pinta base del barquito
     mov x3, 300            // fila inicial parte de abajo
-    mov x6, 60             // alto de la base
+    mov x6, 45             // alto de la base
     mov x8, 0             // variable auxiliar que va a ensanchar
 
 loop_filas_down:
-    mov x7, 250            // 
+    mov x7, 200            // 
     add x7, x7,x8            // ancho crece con cada fila
     
      // columna inicial se corre hacia la izquierda para centrar
-    mov x4, 320         // centro horizontal (aprox)
+    mov x4, 150         // centro horizontal (aprox)
     sub x4, x4, x7, LSR #1   // x4 = centro - ancho/2
 
      mov x5, x7          // contador de columnas
@@ -71,16 +70,16 @@ loop_columnas_down:
 
 //----------------------- SOL -----------------------//
  draw_sol:
-     mov x4, 160  // columna inicial  --> centro x
-     mov x2, 65  // fila inicial --> centro y
-     mov x3, 40  // radio
+     mov x4, 320  // columna inicial  --> centro x
+     mov x2, 150 // fila inicial --> centro y
+     mov x3, 80  // radio
    
     mov x5, x4         // centro x
     mov x6, x2         // centro y
     mov x7, x3         // radio
 
-    movz x9, 0xFF, lsl 16   
-    movk x9, 0xF700, lsl 0  // color amarillo
+    movz x9, 0xFD, lsl 16   
+    movk x9, 0x9A04, lsl 0  // color naranjita
 
     // loop sobre y desde -radio hasta +radio
           mov x10, -1
@@ -183,8 +182,8 @@ vela_col_loop:
     ret
 
 //------------------- LINEAS DEL AGUA ---------------------//
-tabla_Y_posiciones: .dword 250, 270, 250, 275, 280, 310, 290, 291, 310, 330, 350, 366, 378, 400, 394, 400, 415, 426, 458, 432, 467, 473
-tabla_X_posiciones: .dword 40, 97, 470, 210, 578, 30, 500, 350, 459, 530, 145, 100, 540, 40, 299, 430, 320, 200, 366, 3, 574, 105
+tabla_Y_posiciones: .dword 260, 280, 250, 275, 280, 390, 290, 291, 310, 330, 290, 366, 378, 400, 394, 400, 415, 426, 458, 432, 467, 473
+tabla_X_posiciones: .dword 40, 87, 470, 210, 578, 30, 500, 350, 459, 530, 160, 100, 540, 40, 299, 430, 320, 200, 366, 3, 574, 105
 
 dibujar_lineas_agua:
     ldr x19, =tabla_Y_posiciones
@@ -214,8 +213,8 @@ bucle_lineas:
     mov x7, 60         // ancho cuadrado
     mov x8, 3         // alto cuadrado
 
-    movz x9, 0x43, lsl 16  // color celeste
-    movk x9, 0xA8DB, lsl 0
+    movz x9, 0xFD, lsl 16   
+    movk x9, 0x9A04, lsl 0  // color naranjita
 
     mov x10, 0         // contador y
 alto_loop_y:
@@ -279,7 +278,7 @@ bandera_derecha:
 bandera_izquierda:
     sub x10, x4, x7        // comienza desde (mástil - ancho)
     add x10, x10, 1        // +1 porque queremos que la base empiece justo a la izquierda
-   
+    // No hace falta usar NEG aquí porque el loop ya usa x9 para contar
 
 seguir_bandera:
     // Pintar línea horizontal (ancho de la fila)
@@ -304,7 +303,6 @@ bandera_col_loop:
 
     ret
     
-//-------------------TEXTO-----------------------//
-
-
+//------------------------------------------------TEXTO------------------------------------------------------------------------------------------//
+  
 
