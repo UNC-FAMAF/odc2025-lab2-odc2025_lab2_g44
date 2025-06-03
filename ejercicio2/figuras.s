@@ -33,6 +33,10 @@ loop_columnas_mastil:
     sub x6, x6, 1
     cbnz x6, loop_filas_mastil
 
+    ret
+    
+//----------------BASE DEL BARCO-------------------//
+
     draw_barco:
     // Pinta base del barquito
     mov x3, 300            // fila inicial parte de abajo
