@@ -335,18 +335,20 @@ letra_O:
     mul x13, x10, x10    // dy^2
     add x14, x12, x13    // dx^2 + dy^2
     mul x15, x7, x7      // radio^2
+
+    sub x16, x15, 5       // margen para el borde (ajustable)
+
+    // Dibujar solo si (r² - 5 ≤ dist² ≤ r²)
     cmp x14, x15
-    bne skip_pixel_letraO       // si está fuera del círculo, no dibujar
+    bgt skip_pixel_letraO        // si dist² > r², no dibujar
+    cmp x14, x16
+    blt skip_pixel_letraO        // si dist² < r² - 5, tampoco
 
     // calcular posición en framebuffer
     add x16, x5, x11     // x = centro_x + dx
     add x17, x6, x10     // y = centro_y + dy
 
-    movz x9, 0xFF, lsl 16
-    movk x9, 0xF700, lsl 0 // amarillo
-
     bl dibujar_cuadr3x3
-    
 
     skip_pixel_letraO:
        add x11, x11, 1
