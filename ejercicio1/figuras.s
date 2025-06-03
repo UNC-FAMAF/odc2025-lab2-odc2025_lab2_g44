@@ -4,7 +4,6 @@
 .global draw_vela
 .global dibujar_lineas_agua
 .global draw_bandera
-.global letra_O
 
 
 //----------------- MASTIL DEL BARCO ------------------//

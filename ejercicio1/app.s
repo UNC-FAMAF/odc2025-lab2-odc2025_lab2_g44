@@ -89,7 +89,6 @@ mov x1, SCREEN_WIDTH         // Ancho de la pantalla
 mov x2, SCREEN_HEIGH         // Alto de la pantalla
 
 
-// Mástil (negro)
 movz x12, 0x0000, lsl 16
 movk x12, 0x0000, lsl 0      // Color negro
 
@@ -120,7 +119,7 @@ movk x12, 0x0E0E, lsl 0      // Color ROJO
 
 mov x3, 360                  // Fila inicial
 mov x4, 200                  // Columna inicial
-mov x5, 340                   // Ancho del submarino
+mov x5, 340                   // Ancho de la base
 bl draw_barco
 
     //--------- Sol -------------------//
@@ -136,7 +135,7 @@ bl dibujar_lineas_agua
 
 //-------------Bandera----------------//
 movz x12, 0xFA, lsl 16
-movk x12, 0x462A, lsl 0       // Color marrón
+movk x12, 0x462A, lsl 0       // Color rojo
 
 mov x3, 55         // fila inicial
 mov x4, 330        // columna inicial (mástil)
