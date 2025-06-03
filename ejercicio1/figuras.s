@@ -277,7 +277,7 @@ bandera_derecha:
 bandera_izquierda:
     sub x10, x4, x7        // comienza desde (mástil - ancho)
     add x10, x10, 1        // +1 porque queremos que la base empiece justo a la izquierda
-    // No hace falta usar NEG aquí porque el loop ya usa x9 para contar
+   
 
 seguir_bandera:
     // Pintar línea horizontal (ancho de la fila)
