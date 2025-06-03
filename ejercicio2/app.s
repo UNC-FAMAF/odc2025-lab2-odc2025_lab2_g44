@@ -17,7 +17,9 @@ main:
 	//---------------- CODE HERE ------------------------------------
 
 
-        // ---------------- MITAD SUPERIOR: CELESTE ---------------- //
+ loop_animacion : 
+       
+          // ---------------- MITAD SUPERIOR: CELESTE ---------------- //
   
     mov w2, SCREEN_HEIGH
     lsr w2, w2, 1             // w2 = 240 (alto de cada mitad)
@@ -87,6 +89,22 @@ degradado_x:
     b.ne degradado_y
 
 
+
+//--------- Sol -------------------//
+mov x1, SCREEN_WIDTH
+mov x0, x20        // inicializamos el x0 con la direcc base del frame
+
+bl draw_sol
+
+// --------- Lineas del agua ---------//
+
+bl dibujar_lineas_agua
+
+
+
+
+
+
 //------------------- Mastil ------------------- //  
 
 mov x0, x20                  // Dirección base del framebuffer
@@ -125,18 +143,8 @@ movk x12, 0x0E0E, lsl 0      // Color ROJO
 
 mov x3, 360                  // Fila inicial
 mov x4, 200                  // Columna inicial
-mov x5, 340                   // Ancho del submarino
+mov x5, 340                   // Ancho de la base
 bl draw_barco
-
-//--------- Sol -------------------//
-mov x1, SCREEN_WIDTH
-mov x0, x20        // inicializamos el x0 con la direcc base del frame
-
-bl draw_sol
-
- // --------- Lineas del agua ---------//
-
-bl dibujar_lineas_agua
 
 //-------------Bandera----------------//
 movz x12, 0xFA, lsl 16
@@ -149,6 +157,27 @@ mov x6, 1          // dirección derecha
 
 bl draw_bandera
 
+
+cmp x4, 0
+beq fin_animacion_barco
+sub x4, x4, 2 
+
+bl delay
+
+b loop_animacion
+
+fin_animacion_barco : ret
+
+
+
+delay:
+    mov x10, #150000
+delay_loop:
+    subs x10, x10, #1
+    bne delay_loop
+    
+
+   ret
 
 
 	// Ejemplo de uso de gpios
