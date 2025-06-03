@@ -5,7 +5,7 @@
 
 .extern draw_barco
 .extern draw_sol
-.extern odc_2025
+
 
 .globl main
 
@@ -134,29 +134,23 @@ bl draw_sol
 
 bl dibujar_lineas_agua
 
- //------------texto--------------//
-
-mov x3, 332 // columna inicial
-mov x2, 105 // fila inicial
-
-movz x9, 0xFF, lsl 16
-movk x9, 0xEF00, lsl 0      // Color
-
-bl odc_2025
-
 //-------------Bandera----------------//
 movz x12, 0xFA, lsl 16
-movk x12, 0x462A, lsl 0       // Color marroncito
+movk x12, 0x462A, lsl 0       // Color marrón
 
-mov x3, 50
-mov x4, 330        // columna justo a la derecha del mástil
-mov x15, 50
-mov x6, 1           // dirección derecha
+mov x3, 55         // fila inicial
+mov x4, 330        // columna inicial (mástil)
+mov x15, 50        // altura
+mov x6, 1          // dirección derecha
+
 bl draw_bandera
 
+
+//----------------------------------------------TEXTO---------------------------------------------------------------------------------------//
+
+
+  
     // ---------------- Bucle infinito ----------------
 InfLoop:
     b InfLoop
-
-
  
