@@ -171,9 +171,10 @@ fin_animacion_barco : ret
 
 
 delay:
-    mov x10, #150000
+    mov x10, 100
+    lsr x10, x10, 3
 delay_loop:
-    subs x10, x10, #1
+    subs x10, x10, 1
     bne delay_loop
     
 
