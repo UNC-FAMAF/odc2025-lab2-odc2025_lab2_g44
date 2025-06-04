@@ -191,7 +191,6 @@ bl draw_sol
 
 
  // --------- Lineas del agua ---------//
-.section .data
 tabla_Y_posiciones_naranja: .dword 260, 280, 250, 275, 280, 290, 291, 310
 tabla_X_posiciones_naranja: .dword 40, 87, 470, 210, 578, 500, 350, 459   
 
