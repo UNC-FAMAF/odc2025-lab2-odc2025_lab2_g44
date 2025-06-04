@@ -161,6 +161,25 @@ movk x12, 0x3300, lsl 0      // Color marrón
 mov x3, 360                  // Fila inicial
 mov x4, 190                  // Columna inicial
 mov x5, 340                   // Ancho del submarino
+
+// Línea negra debajo del barco (sombra)
+mov x3, 345           // fila justo debajo
+mov x4, 50            // columna inicial
+mov x5, 200           // ancho
+movz x12, 0x00, lsl 16
+movk x12, 0x0000, lsl 0   // color negro
+
+loop_sombra_barco:
+    mul x11, x3, x1
+    add x11, x4, x11
+    lsl x11, x11, 2
+    add x11, x0, x11
+    stur w12, [x11]
+
+    add x4, x4, 1
+    sub x5, x5, 1
+    cbnz x5, loop_sombra_barco
+
 bl draw_barco
 
 
@@ -193,3 +212,6 @@ bl draw_bandera
   // ---------------- Bucle infinito ----------------
 InfLoop:
     b InfLoop
+
+
+ 
