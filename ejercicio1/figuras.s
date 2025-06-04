@@ -317,5 +317,174 @@ bandera_col_loop:
     ret
     
 //------------------------------------------------TEXTO------------------------------------------------------------------------------------------//
+.section .data
+// Cada carácter ocupa 7 bytes (una fila por byte, 5 bits usados)
+letras:
+    // "O"
+    .byte 0b01110
+    .byte 0b10001
+    .byte 0b10001
+    .byte 0b10001
+    .byte 0b10001
+    .byte 0b10001
+    .byte 0b01110
+    .skip 1
+
+    // "d"
+    .byte 0b00001
+    .byte 0b00001
+    .byte 0b01111
+    .byte 0b10001
+    .byte 0b10001
+    .byte 0b10001
+    .byte 0b01111
+    .skip 1
+
+    // "c"
+    .byte 0b01110
+    .byte 0b10001
+    .byte 0b10000
+    .byte 0b10000
+    .byte 0b10000
+    .byte 0b10001
+    .byte 0b01110
+    .skip 1
+
+    // espacio
+    .byte 0b00000
+    .byte 0b00000
+    .byte 0b00000
+    .byte 0b00000
+    .byte 0b00000
+    .byte 0b00000
+    .byte 0b00000
+    .skip 1
+
+    // "2"
+    .byte 0b01110
+    .byte 0b10001
+    .byte 0b00001
+    .byte 0b00110
+    .byte 0b01000
+    .byte 0b10000
+    .byte 0b11111
+    .skip 1
+
+    // "0"
+    .byte 0b01110
+    .byte 0b10001
+    .byte 0b10011
+    .byte 0b10101
+    .byte 0b11001
+    .byte 0b10001
+    .byte 0b01110
+    .skip 1
+
+    // "5"
+    .byte 0b11111
+    .byte 0b10000
+    .byte 0b11110
+    .byte 0b00001
+    .byte 0b00001
+    .byte 0b10001
+    .byte 0b01110
+    .skip 1
+
+ 
+// x0: framebuffer
+// x1: ancho pantalla
+// x2: columna destino
+// x3: fila destino
+// x4: índice de la letra (0 para 'O', 1 para 'd', etc.)
+
+draw_letra:
+    lsl x5, x4, 3           // 7 bytes por letra (7 * 1 = 7, pero alineamos a 8)
+    adr x6, letras
+    add x6, x6, x5          // puntero al bitmap de la letra
+    movz x7, 0xFFFF, lsl 0  // color blanco
+    movk x7, 0xFFFF, lsl 16
+
+    mov x8, 0 // fila
+draw_letra_fila:
+    cmp x8, 7
+    bge fin_draw_letra
+
+    ldrb w9, [x6, x8] // cargar fila del bitmap
+
+    mov x10, 0 // columna
+draw_letra_columna:
+    cmp x10, 5
+    bge sig_fila_letra
+
+    
+    mov x11, x9
+    mov x12, 4
+    sub x12, x12, x10
+    lsrv x11, x11, x12
+
+    and x11, x11, 1
+    cbz x11, no_pixel
+
+    // dibujar píxel
+    add x12, x2, x10     // columna actual
+    add x13, x3, x8      // fila actual
+
+    mul x14, x13, x1
+    add x14, x14, x12
+    lsl x14, x14, 2
+    add x15, x0, x14
+    str w7, [x15]
+
+no_pixel:
+    add x10, x10, 1
+    b draw_letra_columna
+
+sig_fila_letra:
+    add x8, x8, 1
+    b draw_letra_fila
+
+fin_draw_letra:
+    ret
+
+ 
+
+Odc_2025:
+    mov x2, 160       // columna inicial
+    mov x3, 85      // fila
+    mov x4, 0        // índice "O"
+    bl draw_letra
+
+    add x2, x2, 6
+    mov x4, 1        // "d"
+    bl draw_letra
+
+    add x2, x2, 6
+    mov x4, 2        // "c"
+    bl draw_letra
+
+    add x2, x2, 6
+    mov x4, 3        // espacio
+    bl draw_letra
+
+    add x2, x2, 6
+    mov x4, 4        // "2"
+    bl draw_letra
+
+    add x2, x2, 6
+    mov x4, 5        // "0"
+    bl draw_letra
+
+    add x2, x2, 6
+    mov x4, 4        // "2"
+    bl draw_letra
+
+    add x2, x2, 6
+    mov x4, 6        // "5"
+    bl draw_letra
+
+    ret
+  
+
+
   
 
