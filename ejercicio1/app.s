@@ -6,6 +6,15 @@
 .extern draw_barco
 .extern draw_sol
 
+tabla_Y_posiciones_naranja: .dword 260, 280, 250, 275, 280, 290, 291, 310
+tabla_X_posiciones_naranja: .dword 40, 87, 470, 210, 578, 500, 350, 459   
+
+tabla_Y_posiciones_violeta:  .dword 330, 290, 366, 378
+tabla_X_posiciones_violeta: .dword 530, 160, 100, 540
+
+tabla_Y_posiciones_azul: .dword 390, 394, 400, 400, 415, 426, 458, 432, 467, 473
+tabla_X_posiciones_azul: .dword 30, 299, 40, 430, 320, 200, 366, 3, 574, 105
+
 
 .globl main
 
@@ -191,17 +200,8 @@ bl draw_sol
 
 
  // --------- Lineas del agua ---------//
-tabla_Y_posiciones_naranja: .dword 260, 280, 250, 275, 280, 290, 291, 310
-tabla_X_posiciones_naranja: .dword 40, 87, 470, 210, 578, 500, 350, 459   
 
-tabla_Y_posiciones_violeta :  .dword 330, 290, 366, 378
-tabla_X_posiciones_violeta : .dword 530, 160, 100, 540
-
-tabla_Y_posiciones_azul: .dword 390, 394, 400, 400, 415, 426, 458, 432, 467, 473
-tabla_X_posiciones_azul : .dword 30, 299, 40, 430, 320, 200, 366, 3, 574, 105
-
-
-// Primeras lineas mas cercanas al sol
+   // Primeras lineas mas cercanas al sol
 ldr x19, =tabla_Y_posiciones_naranja
 ldr x20, =tabla_X_posiciones_naranja
 movz x9, 0xFD, lsl 16   
@@ -210,7 +210,7 @@ mov x21, 8
 
 bl dibujar_lineas_agua
 
-// Lineas a mitad del mar
+    // Lineas a mitad del mar
 ldr x19, =tabla_Y_posiciones_violeta
 ldr x20, =tabla_X_posiciones_violeta
 movz x9, 0x9C, lsl 16   
@@ -219,7 +219,7 @@ mov x21, 4
 
 bl dibujar_lineas_agua
 
-// Lineas mas alejadas del sol
+     // Lineas mas alejadas del sol
 ldr x19, =tabla_Y_posiciones_azul
 ldr x20, =tabla_X_posiciones_azul
 movz x9, 0x44, lsl 16   
