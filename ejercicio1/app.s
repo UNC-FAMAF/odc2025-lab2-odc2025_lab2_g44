@@ -10,7 +10,7 @@ tabla_Y_posiciones_naranja: .dword 260, 280, 250, 275, 280, 290, 291, 310, 290, 
 tabla_X_posiciones_naranja: .dword 40, 87, 470, 210, 578, 500, 350, 459, 160, 545
 
 tabla_Y_posiciones_violeta:  .dword 347, 366, 378, 352
-tabla_X_posiciones_violeta: .dword 330, 100, 540, 405
+tabla_X_posiciones_violeta: .dword 330, 100, 540, 461
 
 tabla_Y_posiciones_azul: .dword 390, 394, 400, 400, 415, 426, 458, 432, 467, 473
 tabla_X_posiciones_azul: .dword 30, 299, 40, 430, 320, 200, 366, 3, 574, 105
@@ -213,8 +213,8 @@ bl dibujar_lineas_agua
     // Lineas a mitad del mar
 ldr x19, =tabla_Y_posiciones_violeta
 ldr x20, =tabla_X_posiciones_violeta
-movz x9, 0x9C, lsl 16   
-movk x9, 0x7FC7, lsl 0  // color violeta
+movz x9, 0x77, lsl 16   
+movk x9, 0x6EB3, lsl 0  // color violeta
 mov x21, 4
 
 bl dibujar_lineas_agua
