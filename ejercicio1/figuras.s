@@ -195,14 +195,14 @@ vela_col_loop:
     ret
 
 //------------------- LINEAS DEL AGUA ---------------------//
-tabla_Y_posiciones: .dword 260, 280, 250, 275, 280, 390, 290, 291, 310, 330, 290, 366, 378, 400, 394, 400, 415, 426, 458, 432, 467, 473
-tabla_X_posiciones: .dword 40, 87, 470, 210, 578, 30, 500, 350, 459, 530, 160, 100, 540, 40, 299, 430, 320, 200, 366, 3, 574, 105
 
 dibujar_lineas_agua:
-    ldr x19, =tabla_Y_posiciones
-    ldr x20, =tabla_X_posiciones
-    mov x21, 22  // cantidad de líneas
-    mov x22, 0   // índice
+    // x19 : puntero de la tabla de las posiciones Y
+    // x20 : puntero de la tabla de las posiciones X
+    // x21 : cantidad de lineas a pintar
+    // x9 : color 
+    
+    mov x22, 0   // índice de la tabla de numeros
 
 bucle_lineas: 
     cmp x22, x21
@@ -225,9 +225,6 @@ bucle_lineas:
     mov x6, x2         // y inicial
     mov x7, 60         // ancho cuadrado
     mov x8, 3         // alto cuadrado
-
-    movz x9, 0xFD, lsl 16   
-    movk x9, 0x9A04, lsl 0  // color naranjita
 
     mov x10, 0         // contador y
 alto_loop_y:
