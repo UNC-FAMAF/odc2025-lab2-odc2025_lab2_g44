@@ -191,8 +191,44 @@ bl draw_sol
 
 
  // --------- Lineas del agua ---------//
+.section .data
+tabla_Y_posiciones_naranja: .dword 260, 280, 250, 275, 280, 290, 291, 310
+tabla_X_posiciones_naranja: .dword 40, 87, 470, 210, 578, 500, 350, 459   
+
+tabla_Y_posiciones_violeta :  .dword 330, 290, 366, 378
+tabla_X_posiciones_violeta : .dword 530, 160, 100, 540
+
+tabla_Y_posiciones_azul: .dword 390, 394, 400, 400, 415, 426, 458, 432, 467, 473
+tabla_X_posciones_azul : .dword 30, 299, 40, 430, 320, 200, 366, 3, 574, 105
+
+
+// Primeras lineas mas cercanas al sol
+ldr x19, =tabla_Y_posiciones_naranja
+ldr x20, =tabla_X_posiciones_naranja
+movz x9, 0xFD, lsl 16   
+movk x9, 0x9A04, lsl 0  // color naranja
+mov x21, 8
 
 bl dibujar_lineas_agua
+
+// Lineas a mitad del mar
+ldr x19, =tabla_Y_posiciones_violeta
+ldr x20, =tabla_X_posiciones_violeta
+movz x9, 0x9C, lsl 16   
+movk x9, 0x7FC7, lsl 0  // color violeta
+mov x21, 4
+
+bl dibujar_lineas_agua
+
+// Lineas mas alejadas del sol
+ldr x19, =tabla_Y_posiciones_azul
+ldr x20, =tabla_X_posiciones_azul
+movz x9, 0x44, lsl 16   
+movk x9, 0x59C3, lsl 0  // color azul
+mov x21, 10
+
+bl dibujar_lineas_agua
+
 
 //-------------Bandera----------------//
 movz x12, 0xFA, lsl 16
