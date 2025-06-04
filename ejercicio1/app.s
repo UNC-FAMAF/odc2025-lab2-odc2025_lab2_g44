@@ -199,7 +199,7 @@ tabla_Y_posiciones_violeta :  .dword 330, 290, 366, 378
 tabla_X_posiciones_violeta : .dword 530, 160, 100, 540
 
 tabla_Y_posiciones_azul: .dword 390, 394, 400, 400, 415, 426, 458, 432, 467, 473
-tabla_X_posciones_azul : .dword 30, 299, 40, 430, 320, 200, 366, 3, 574, 105
+tabla_X_posiciones_azul : .dword 30, 299, 40, 430, 320, 200, 366, 3, 574, 105
 
 
 // Primeras lineas mas cercanas al sol
