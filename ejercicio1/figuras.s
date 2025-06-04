@@ -35,21 +35,34 @@ loop_columnas_mastil:
 
 //----------------- BARCO ------------------//
 draw_barco:
-    // Pinta base del barquito
-    mov x3, 300            // fila inicial parte de abajo
-    mov x6, 45             // alto de la base
-    mov x8, 0             // variable auxiliar que va a ensanchar
+    mov x3, 300            // fila inicial
+    mov x6, 45             // alto de la base total
+    mov x8, 0              // ensanchamiento horizontal
+    mov x9, x6             // guardamos el alto original
+    lsr x10, x9, 1         // x10 = x9 / 2 = mitad de las filas
 
 loop_filas_down:
-    mov x7, 200            // 
-    add x7, x7,x8            // ancho crece con cada fila
-    
-     // columna inicial se corre hacia la izquierda para centrar
-    mov x4, 150         // centro horizontal (aprox)
-    sub x4, x4, x7, LSR #1   // x4 = centro - ancho/2
+    mov x7, 200
+    add x7, x7, x8
 
-     mov x5, x7          // contador de columnas
+    mov x4, 150
+    sub x4, x4, x7, LSR #1
+    mov x5, x7
 
+    // Elegir color según fila
+    cmp x6, x10            // ¿estamos en la mitad superior?
+    b.gt usar_color_claro
+
+    // Parte inferior - sombra
+    movz x12, 0x44, lsl 16     // color marrón oscuro
+    movk x12, 0x2200, lsl 0
+    b seguir_barco
+
+usar_color_claro:
+    movz x12, 0x88, lsl 16     // color marrón claro
+    movk x12, 0x4400, lsl 0
+
+seguir_barco:
 loop_columnas_down:
     mul x11, x3, x1
     add x11, x4, x11
@@ -61,9 +74,9 @@ loop_columnas_down:
     sub x5, x5, 1
     cbnz x5, loop_columnas_down
 
-    add x3, x3, 1          // siguiente fila hacia abajo
+    add x3, x3, 1
     sub x8, x8, 1
-    sub x6, x6,1
+    sub x6, x6, 1
     cbnz x6, loop_filas_down
 
     ret
