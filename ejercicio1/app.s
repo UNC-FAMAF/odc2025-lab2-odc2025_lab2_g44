@@ -6,11 +6,11 @@
 .extern draw_barco
 .extern draw_sol
 
-tabla_Y_posiciones_naranja: .dword 260, 280, 250, 275, 280, 290, 291, 310
-tabla_X_posiciones_naranja: .dword 40, 87, 470, 210, 578, 500, 350, 459   
+tabla_Y_posiciones_naranja: .dword 260, 280, 250, 275, 280, 290, 291, 310, 290, 318 
+tabla_X_posiciones_naranja: .dword 40, 87, 470, 210, 578, 500, 350, 459, 160, 545
 
-tabla_Y_posiciones_violeta:  .dword 330, 290, 366, 378
-tabla_X_posiciones_violeta: .dword 530, 160, 100, 540
+tabla_Y_posiciones_violeta:  .dword 347, 366, 378, 352
+tabla_X_posiciones_violeta: .dword 330, 100, 540, 405
 
 tabla_Y_posiciones_azul: .dword 390, 394, 400, 400, 415, 426, 458, 432, 467, 473
 tabla_X_posiciones_azul: .dword 30, 299, 40, 430, 320, 200, 366, 3, 574, 105
