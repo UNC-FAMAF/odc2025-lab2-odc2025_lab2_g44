@@ -1,8 +1,8 @@
 Nombre y apellido 
-Integrante 1: 
-Integrante 2:
-Integrante 3:
-Integrante 4:
+Integrante 1: Lola Manrique
+Integrante 2: Vittorio Monina 
+Integrante 3: Lujan Boasso
+Integrante 4: Sofia Medina
 
 
 Descripción ejercicio 1: 
