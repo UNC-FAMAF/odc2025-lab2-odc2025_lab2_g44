@@ -11,7 +11,12 @@ RUN apt-get update && apt-get -y install \
     zlib1g-dev \
     libglib2.0-dev \
     libpixman-1-dev \
+    gdb-multiarch \
     qemu-system-arm
+
+  # Instalar GDB Dashboard
+RUN git clone https://github.com/cyrus-and/gdb-dashboard.git /root/.gdb-dashboard \
+&& echo "source /root/.gdb-dashboard/.gdbinit" >> /root/.gdbinit
 
 WORKDIR /local
 ENTRYPOINT ["/bin/bash"]
