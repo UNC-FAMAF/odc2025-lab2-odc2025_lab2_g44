@@ -299,7 +299,7 @@ bandera_col_loop:
     lsl x11, x11, 2        // cada pixel = 4 bytes
     add x11, x0, x11       // dirección en framebuffer
 
-    stur w12, [x11]        // pintar pixel
+    str w12, [x11]        // pintar pixel
 
     add x10, x10, 1        // avanzar columna
     sub x9, x9, 1           // decremento contador del ancho
