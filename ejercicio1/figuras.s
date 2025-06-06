@@ -442,46 +442,5 @@ sig_fila_letra:
 
 fin_draw_letra:
     ret
-
- 
-
-Odc_2025:
-    mov x2, 160       // columna inicial
-    mov x3, 85      // fila
-    mov x4, 0        // índice "O"
-    bl draw_letra
-
-    add x2, x2, 6
-    mov x4, 1        // "d"
-    bl draw_letra
-
-    add x2, x2, 6
-    mov x4, 2        // "c"
-    bl draw_letra
-
-    add x2, x2, 6
-    mov x4, 3        // espacio
-    bl draw_letra
-
-    add x2, x2, 6
-    mov x4, 4        // "2"
-    bl draw_letra
-
-    add x2, x2, 6
-    mov x4, 5        // "0"
-    bl draw_letra
-
-    add x2, x2, 6
-    mov x4, 4        // "2"
-    bl draw_letra
-
-    add x2, x2, 6
-    mov x4, 6        // "5"
-    bl draw_letra
-
-    ret
-  
-
-
   
 
