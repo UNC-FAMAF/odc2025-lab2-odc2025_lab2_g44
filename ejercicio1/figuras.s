@@ -42,11 +42,12 @@ draw_barco:
     lsr x10, x9, 1         // x10 = x9 / 2 = mitad de las filas
 
 loop_filas_down:
-    mov x7, 200
-    add x7, x7, x8
+    mov x7, 200           // inicilizacion del ancho
+    add x7, x7, x8        // sumamos el ancho
 
     mov x4, 150
-    sub x4, x4, x7, LSR #1
+    lsr x19, x7, 1     // dividir el ancho por la mitad
+    sub x4, x4, x19    // restarselo al centro donde se ubica el barco
     mov x5, x7
 
     // Elegir color según fila
@@ -64,18 +65,18 @@ usar_color_claro:
 
 seguir_barco:
 loop_columnas_down:
-    mul x11, x3, x1
-    add x11, x4, x11
-    lsl x11, x11, 2
-    add x11, x0, x11
-    stur w12, [x11]
+    mul x11, x3, x1    // x11 = fila * 640
+    add x11, x4, x11   // x11 += columna
+    lsl x11, x11, 2    // offset en bytes
+    add x11, x0, x11   // sumo direcc base del frame
+    stur w12, [x11]    // pintar pixel
 
-    add x4, x4, 1
-    sub x5, x5, 1
+    add x4, x4, 1     // siguente columna
+    sub x5, x5, 1      // vamos achicando el ancho
     cbnz x5, loop_columnas_down
 
-    add x3, x3, 1
-    sub x8, x8, 1
+    add x3, x3, 1     // sig fila
+    add x8, x8, 1     //
     sub x6, x6, 1
     cbnz x6, loop_filas_down
 
