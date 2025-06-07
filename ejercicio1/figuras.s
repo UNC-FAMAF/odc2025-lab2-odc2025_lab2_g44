@@ -396,7 +396,7 @@ letras:
 
 draw_letra:
     lsl x5, x4, 3           // 7 bytes por letra (7 * 1 = 7, pero alineamos a 8)
-    adr x6, letras
+    ldr x6, =letras         // x6 = direcc base de letras
     add x6, x6, x5          // puntero al bitmap de la letra
     movz x7, 0xFFFF, lsl 0  // color blanco
     movk x7, 0xFFFF, lsl 16
