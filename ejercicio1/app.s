@@ -182,7 +182,7 @@ loop_sombra_barco:
     add x11, x4, x11
     lsl x11, x11, 2
     add x11, x0, x11
-    stur w12, [x11]
+    str w12, [x11]
 
     add x4, x4, 1
     sub x5, x5, 1
