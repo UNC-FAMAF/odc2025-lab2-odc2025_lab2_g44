@@ -128,8 +128,6 @@ degradado_x:
     add w4, w4, 1         // Pasamos a la siguiente línea
     subs w2, w2, 1        // Restamos una línea
     b.ne degradado_y      // Si no terminamos, seguimos
-az
-
 
 
 //------------------- Mastil ------------------- //  
