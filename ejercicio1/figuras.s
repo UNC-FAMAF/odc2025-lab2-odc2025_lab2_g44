@@ -23,7 +23,7 @@ loop_columnas_mastil:
     add x11, x4, x11       // x11 += columna
     lsl x11, x11, 2        // offset en bytes
     add x11, x0, x11       // dirección de memoria final
-    stur w12, [x11]        // pintar pixel
+    str w12, [x11]        // pintar pixel
 
     add x4, x4, 1          // siguiente columna
     sub x5, x5, 1
@@ -69,7 +69,7 @@ loop_columnas_down:
     add x11, x4, x11   // x11 += columna
     lsl x11, x11, 2    // offset en bytes
     add x11, x0, x11   // sumo direcc base del frame
-    stur w12, [x11]    // pintar pixel
+    str w12, [x11]    // pintar pixel
 
     add x4, x4, 1     // siguente columna
     sub x5, x5, 1      // vamos achicando el ancho
@@ -177,7 +177,7 @@ vela_col_loop:
     add x11, x10, x11    // x11 += columna
     lsl x11, x11, 2     // *4
     add x11, x0, x11    // le sumo la direcc base del frame
-    stur w12, [x11]     // pintar pixel
+    str w12, [x11]     // pintar pixel
 
     add x10, x10, 1      // sig columna
     sub x9, x9, 1        // contador ancho
