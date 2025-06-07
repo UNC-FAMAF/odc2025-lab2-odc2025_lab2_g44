@@ -3,8 +3,8 @@
 .equ BITS_PER_PIXEL, 32
 
 
-.extern draw_barco
-.extern draw_sol
+
+// Tablas definidas para dibujar las lineas del agua. Las llamadas a estas tablas estan a partir de la linea 204 //
 
 tabla_Y_posiciones_naranja: .dword 260, 280, 250, 275, 280, 290, 291, 310, 290, 318 
 tabla_X_posiciones_naranja: .dword 40, 87, 470, 210, 578, 500, 350, 459, 160, 545
