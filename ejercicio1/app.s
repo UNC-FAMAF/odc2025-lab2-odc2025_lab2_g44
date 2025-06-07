@@ -22,112 +22,113 @@ main:
                                // x0 = dirección base del framebuffer
     mov x20, x0               // guardamos base framebuffer
 
-   // ---------------- MITAD SUPERIOR: DEGRADADO ATARDECER  ----------------
-mov w2, SCREEN_HEIGHT
-lsr w2, w2, 1             // w2 = 240 (alto de cada mitad)
+  // ---------------- MITAD DE ARRIBA: DEGRADADO DEL CIELO AL ATARDECER ----------------
 
-mov w3, SCREEN_WIDTH
-mov w4, 0                 // contador de líneas
+mov w2, SCREEN_HEIGHT     // Guardamos la altura total de la pantalla
+lsr w2, w2, 1             // Dividimos la altura a la mitad (usaremos solo la parte de arriba)
+
+mov w3, SCREEN_WIDTH      // Guardamos el ancho de la pantalla
+mov w4, 0                 // Empezamos desde la primera línea (fila 0)
+
 superior_y:
-    mov w1, w3            // columnas (ancho)
+    mov w1, w3            // Empezamos desde la primera columna en esta línea
 
-    // Colores invertidos
-    // Arriba: púrpura (128, 0, 128)
-    // Abajo: naranja (255, 140, 0)
-    // Interpolación invertida:
-    // R: 128 -> 255 (delta +127)
-    // G: 0   -> 140 (delta +140)
-    // B: 128 -> 0   (delta -128)
+    // Queremos hacer un cambio de color desde púrpura hasta naranja
+    // Cambiaremos los valores de rojo, verde y azul poco a poco por cada línea
 
-    // R
+    // ROJO va de 128 a 255 (sube)
     mov w5, #127
-    mul w6, w4, w5
+    mul w6, w4, w5        // Calculamos cuánto subir el rojo en esta línea
     mov w7, #240
     udiv w6, w6, w7
     mov w8, #128
-    add w14, w8, w6        // R = 128 + step
+    add w14, w8, w6       // Color rojo para esta línea
 
-    // G
+    // VERDE va de 0 a 140 (sube)
     mov w5, #140
     mul w6, w4, w5
     udiv w6, w6, w7
     mov w8, #0
-    add w15, w8, w6        // G = 0 + step
+    add w15, w8, w6       // Color verde para esta línea
 
-    // B
+    // AZUL va de 128 a 0 (baja)
     mov w5, #128
     mul w6, w4, w5
     udiv w6, w6, w7
     mov w8, #128
-    sub w16, w8, w6        // B = 128 - step
+    sub w16, w8, w6       // Color azul para esta línea
 
-    // Componer color
-    lsl w14, w14, #16         // R << 16
-    lsl w15, w15, #8          // G << 8
-    orr w14, w14, w15         // R | G
-    orr w14, w14, w16         // R | G | B
-    mov w17, #0xFF            // Alpha (opcional)
-    lsl w17, w17, #24
-    orr w15, w17, w14         // ARGB
+    // Juntamos los colores para formar el color final
+    lsl w14, w14, #16     // Rojo se coloca en su lugar
+    lsl w15, w15, #8      // Verde se coloca en su lugar
+    orr w14, w14, w15     // Rojo + Verde
+    orr w14, w14, w16     // Rojo + Verde + Azul
+    mov w17, #0xFF
+    lsl w17, w17, #24     // Usamos 0xFF para que el color se vea bien
+    orr w15, w17, w14     // Color final listo
 
+// Dibuja la línea horizontal completa con ese color
 superior_x:
-    str w15, [x0]
-    add x0, x0, 4
-    subs w1, w1, 1
-    b.ne superior_x
+    str w15, [x0]         // Escribimos un píxel
+    add x0, x0, 4         // Avanzamos al siguiente píxel
+    subs w1, w1, 1        // Restamos una columna
+    b.ne superior_x       // Si no llegamos al final, seguimos
 
-    add w4, w4, 1
-    subs w2, w2, 1
-    b.ne superior_y
+    add w4, w4, 1         // Pasamos a la siguiente línea
+    subs w2, w2, 1        // Restamos una línea
+    b.ne superior_y       // Si no llegamos al final, seguimos
 
+// ---------------- MITAD DE ABAJO: DEGRADADO DEL MAR AL ANOCHECER ----------------
 
-// ---------------- MITAD INFERIOR: DEGRADADO AZUL MARINO A NEGRO ----------------
 mov w2, SCREEN_HEIGHT
-lsr w2, w2, 1             // 240
+lsr w2, w2, 1             // Otra vez 240 líneas (la mitad de la pantalla)
 mov w3, SCREEN_WIDTH
-mov w4, 0                 // línea
+mov w4, 0                 // Empezamos desde la primera línea de la parte de abajo
 
 degradado_y:
-    mov w1, w3
-    mov w5, w4            // y actual
+    mov w1, w3            // Empezamos desde la primera columna
+    mov w5, w4            // Línea actual
 
-    // Calcular R (255 → 0)
+    // Cambiamos el color desde azul marino hasta negro
+
+    // ROJO va de 255 a 0 (baja)
     mov w6, #255
     mul w7, w5, w6
     mov w8, #240
     udiv w9, w7, w8
-    sub w10, w6, w9       // R = 255 - step
+    sub w10, w6, w9       // Color rojo para esta línea
 
-    // Calcular G (165 → 0)
+    // VERDE va de 165 a 0 (baja)
     mov w11, #165
     mul w12, w5, w11
     udiv w13, w12, w8
-    sub w14, w11, w13     // G = 165 - step
+    sub w14, w11, w13     // Color verde para esta línea
 
-    // Calcular B (0 → 255)
+    // AZUL va de 0 a 255 (sube)
     mov w15, #255
     mul w16, w5, w15
-    udiv w17, w16, w8     // B = step
+    udiv w17, w16, w8     // Color azul para esta línea
 
-    // Componer color ARGB
-    lsl w10, w10, #16     // R << 16
-    lsl w14, w14, #8      // G << 8
-    orr w18, w10, w14     // R | G
-    orr w18, w18, w17     // RGB
+    // Juntamos los colores para esta línea
+    lsl w10, w10, #16     // Rojo en su lugar
+    lsl w14, w14, #8      // Verde en su lugar
+    orr w18, w10, w14     // Rojo + Verde
+    orr w18, w18, w17     // Rojo + Verde + Azul
     mov w19, #0xFF
-    lsl w19, w19, #24
-    orr w13, w19, w18     // ARGB
+    lsl w19, w19, #24     // Agregamos transparencia fuerte (para que se vea)
+    orr w13, w19, w18     // Color final listo
 
+// Dibuja la línea completa
 degradado_x:
-    str w13, [x0]
-    add x0, x0, 4
-    subs w1, w1, 1
-    b.ne degradado_x
+    str w13, [x0]         // Escribimos un píxel
+    add x0, x0, 4         // Avanzamos al siguiente píxel
+    subs w1, w1, 1        // Restamos una columna
+    b.ne degradado_x      // Si no terminamos, seguimos
 
-    add w4, w4, 1
-    subs w2, w2, 1
-    b.ne degradado_y
-
+    add w4, w4, 1         // Pasamos a la siguiente línea
+    subs w2, w2, 1        // Restamos una línea
+    b.ne degradado_y      // Si no terminamos, seguimos
+az
 
 
 
